@@ -6,19 +6,36 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: Self.self))
+        let window = UIWindow(windowScene: windowScene)
+        let rootViewController = storyboard.instantiateInitialViewController()!
+        insertContainer(rootViewController)
+        window.rootViewController = rootViewController
+        self.window = window
+        window.makeKeyAndVisible()
     }
 
+    private func insertContainer(_ vc: UIViewController) {
+        if let vc = vc as? UINavigationController, let initial = vc.viewControllers.first {
+            insertContainer(initial)
+        } else if let vc = vc as? UITabBarController {
+            for controller in vc.viewControllers! {
+                insertContainer(controller)
+            }
+        } else if let vc = vc as? any AnyStoryboardView {
+            vc.associateContainer(container: (UIApplication.shared.delegate as! AppDelegate).container)
+        }
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
@@ -47,7 +64,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        _ = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext.trySaveIfNeeded()
     }
 
 
