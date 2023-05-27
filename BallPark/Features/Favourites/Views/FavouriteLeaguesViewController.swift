@@ -8,7 +8,7 @@
 import UIKit
 import Swinject
 
-class FavouritesTableViewController: LeaguesTableViewController {
+class FavouriteLeaguesViewController: LeaguesViewController {
 
     override func inject(_ container: Container) {
         let wrappedContainer = Container(parent: container)

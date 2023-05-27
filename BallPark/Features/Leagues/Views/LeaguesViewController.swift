@@ -10,11 +10,11 @@ import Combine
 import Swinject
 import Reachability
 
-class LeaguesTableViewController: UITableViewController, AnyStoryboardView, WithLoaderView {
-    
+private let leagueCellId = "leagueCellId"
+
+class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoaderView {
     class var storyboardId: String { "leaguesVC" }
     
-    var containerKey: String? = nil
     var args: SportType!
     private var viewModel: LeaguesViewModel!
     private var subscribers: [AnyCancellable] = []
@@ -34,7 +34,9 @@ class LeaguesTableViewController: UITableViewController, AnyStoryboardView, With
     }
     
     func setupUI() {
-        
+        tableView.register(UINib(nibName: "LeagueTableViewCell",
+                                 bundle: Bundle(for: LeagueTableViewCell.self)),
+                           forCellReuseIdentifier: leagueCellId)
     }
     
     func inject(_ container: Container) {
@@ -45,7 +47,7 @@ class LeaguesTableViewController: UITableViewController, AnyStoryboardView, With
             if model == nil {
                 model = LeaguesModel(sportType: args,
                                      remoteService: container.require(LeagueRemoteService.self),
-                                     database: container.require((any DynamicDatabase<League>).self),
+                                     database: container.require((any AnyLeagueDatabase).self),
                                      reachability: container.require(Reachability.self))
             }
             viewModel = LeaguesViewModel(model: model!)
@@ -86,10 +88,14 @@ class LeaguesTableViewController: UITableViewController, AnyStoryboardView, With
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
         
-        // Configure the cell...
-        
+        cell.setLeague(leagues[indexPath.item])
+
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }

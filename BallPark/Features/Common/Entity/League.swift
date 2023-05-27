@@ -15,6 +15,7 @@ enum SportType: String {
     case cricket
     
     var apiPath: String { rawValue }
+    var uiImage: String { rawValue }
 }
 
 @objc(League)
@@ -53,6 +54,15 @@ public class League: NSManagedObject, Decodable {
         case countryKey = "country_key"
         case countryName = "country_name"
         case countryLogo = "country_logo"
+    }
+}
+
+extension League {
+    var sportType: SportType? {
+        if let sportTypeRaw = sportTypeRaw {
+            return SportType(rawValue: sportTypeRaw)
+        }
+        return nil
     }
 }
 

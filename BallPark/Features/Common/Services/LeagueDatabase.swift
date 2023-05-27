@@ -8,7 +8,11 @@
 import Foundation
 import CoreData
 
-class LeagueDatabase: Database {
+protocol AnyLeagueDatabase: DynamicDatabase<League> {
+    func getAllBySportType(_ sportType: SportType) -> Result<[League], Error>
+}
+
+class LeagueDatabase: AnyLeagueDatabase {
     typealias Entity = League
     
     private let context: NSManagedObjectContext
@@ -21,6 +25,12 @@ class LeagueDatabase: Database {
         let request = NSFetchRequest<League>()
         request.entity = League.entity()
         return request
+    }
+    
+    func getAllBySportType(_ sportType: SportType) -> Result<[League], Error> {
+        let fetchRequest = fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "sportTypeRaw == %@", sportType.rawValue)
+        return context.tryFetch(fetchRequest)
     }
     
     func getById(_ id: Int64) -> Result<League?, Error> {
@@ -70,3 +80,4 @@ extension LeagueDatabase: FavouritesDatabase {
         return context.trySaveIfNeeded()
     }
 }
+

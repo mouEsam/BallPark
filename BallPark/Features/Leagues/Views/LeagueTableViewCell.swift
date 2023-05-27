@@ -6,18 +6,28 @@
 //
 
 import UIKit
+import Kingfisher
 
 class LeagueTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    @IBOutlet weak var leagueImage: UIImageView!
+    @IBOutlet weak var leagueLabel: UILabel!
     
+    func setLeague(_ league: League) {
+        leagueLabel.text = league.leagueName
+        
+        let placeholder = UIImage(named: league.sportType?.uiImage ?? "football")
+        if let leagueLogo = league.leagueLogo,
+           let imageUrl = URL(string: leagueLogo) {
+            KF.url(imageUrl)
+              .placeholder(placeholder)
+              .loadDiskFileSynchronously()
+              .cacheMemoryOnly()
+              .fade(duration: 0.25)
+              .set(to: leagueImage)
+        } else {
+            leagueImage.image = placeholder
+        }
+        
+    }
 }

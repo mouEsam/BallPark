@@ -37,6 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.register((any Database<League>).self) { resolver in
             resolver.require(LeagueDatabase.self)
         }
+        container.register((any AnyLeagueDatabase).self) { resolver in
+            resolver.require(LeagueDatabase.self)
+        }
         container.register((any DynamicDatabase<League>).self) { resolver in
             resolver.require(LeagueDatabase.self)
         }
@@ -97,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
         return container
     }()
     
