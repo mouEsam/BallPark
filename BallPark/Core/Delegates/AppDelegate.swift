@@ -31,8 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let self = self else { fatalError("Unresolved self") }
             return self.persistentContainer.viewContext
         }
+        container.register(NotificationCenter.self) { resolver in
+            NotificationCenter.default
+        }
         container.register(LeagueDatabase.self) { resolver in
-            LeagueDatabase(context: resolver.resolve(NSManagedObjectContext.self)!)
+            LeagueDatabase(context: resolver.require(NSManagedObjectContext.self),
+                           notificationCenter: resolver.require(NotificationCenter.self)
+            )
         }
         container.register((any Database<League>).self) { resolver in
             resolver.require(LeagueDatabase.self)
@@ -46,8 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.register((any FavouritesDatabase<League>).self) { resolver in
             resolver.require(LeagueDatabase.self)
         }
-        container.register(LeagueRemoteService.self) { [weak self] resolver in
-            return LeagueRemoteService(remoteClient: resolver.require(RemoteClient.self),
+        container.register(LeaguesRemoteService.self) { [weak self] resolver in
+            return LeaguesRemoteService(remoteClient: resolver.require(RemoteClient.self),
                                        decoder: resolver.require(AnyDecoder.self),
                                        context: resolver.require(NSManagedObjectContext.self),
                                        environment: resolver.require(AnyEnvironmentProvider.self))

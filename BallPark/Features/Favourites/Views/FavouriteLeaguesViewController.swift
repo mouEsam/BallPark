@@ -9,13 +9,14 @@ import UIKit
 import Swinject
 
 class FavouriteLeaguesViewController: LeaguesViewController {
-
+    
     override func inject(_ container: Container) {
         let wrappedContainer = Container(parent: container)
-        wrappedContainer.register(AnyLeaguesModel.self) { resolver in
-            FavouriteLeaguesModel(database: resolver.require((any FavouritesDatabase<League>).self))
+        wrappedContainer.register(AnyLeaguesViewModel.self) { resolver in
+            FavouriteLeaguesViewModel(model: FavouriteLeaguesModel(database: resolver.require((any FavouritesDatabase<League>).self)),
+                                      notificationCenter: resolver.require(NotificationCenter.self))
         }
         super.inject(wrappedContainer)
     }
-
+    
 }

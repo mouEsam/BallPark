@@ -8,11 +8,20 @@
 import Foundation
 import UIKit
 
-protocol WithLoaderView: UIViewController {
-    var loader: UIActivityIndicatorView? { get set }
-}
+private var loaderKey: UInt8 = 0
+
+protocol WithLoaderView: UIViewController {}
 
 extension WithLoaderView {
+    var loader: UIActivityIndicatorView? {
+        get {
+            objc_getAssociatedObject(self, &loaderKey) as? UIActivityIndicatorView
+        }
+        set {
+            objc_setAssociatedObject(self, &loaderKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
     func showLoader() {
         guard loader == nil else { return }
         let loader = UIActivityIndicatorView(style: .large)

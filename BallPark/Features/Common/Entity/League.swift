@@ -58,9 +58,20 @@ public class League: NSManagedObject, Decodable {
 }
 
 extension League {
+    var isFavourite: Bool {
+        favourite?.isFavourite ?? false
+    }
+    
     var sportType: SportType? {
         if let sportTypeRaw = sportTypeRaw {
             return SportType(rawValue: sportTypeRaw)
+        }
+        return nil
+    }
+    
+    var identity: LeagueIdentity? {
+        if let sportType = sportType {
+            return LeagueIdentity(leagueKey: leagueKey, sportType: sportType)
         }
         return nil
     }

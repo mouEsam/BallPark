@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class LeagueRemoteService {
+class LeaguesRemoteService {
     
     private let environment: any AnyEnvironmentProvider
     private let remoteClient: any RemoteClient

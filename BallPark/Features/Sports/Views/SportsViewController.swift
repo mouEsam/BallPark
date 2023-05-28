@@ -51,8 +51,12 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
+        let sportType = sports[indexPath.item]
+        
         let imageView = cell.viewWithTag(1) as! UIImageView
-        imageView.image = UIImage(named: sports[indexPath.item].uiImage)
+        let label = cell.viewWithTag(2) as! UILabel
+        imageView.image = UIImage(named: sportType.uiImage)
+        label.text = sportType.rawValue
         
         return cell
     }
@@ -60,7 +64,6 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let vc = instantiate(LeaguesViewController.self, args: sports[indexPath.item]);
-        print(sports[indexPath.item])
         navigationController?.pushViewController(vc, animated: true)
     }
     

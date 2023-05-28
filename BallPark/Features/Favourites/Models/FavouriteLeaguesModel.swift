@@ -7,11 +7,11 @@
 
 import Foundation
 
-class FavouriteLeaguesModel: AnyLeaguesModel {
+class FavouriteLeaguesModel {
     
     private let favouriteLeagueDatabase: any FavouritesDatabase<League>
     
-    init(database: any FavouritesDatabase<League>) {
+    init(database: some FavouritesDatabase<League>) {
         self.favouriteLeagueDatabase = database
     }
     
