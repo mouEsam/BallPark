@@ -16,16 +16,14 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     class var storyboardId: String { "leaguesVC" }
     
     var args: SportType!
-    private var viewModel: LeaguesViewModel!
+    private var viewModel: (any AnyLeaguesViewModel)!
     private var subscribers: [AnyCancellable] = []
     
     private var leagues: [League] = []
-    
-    weak var loader: UIActivityIndicatorView?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.$uiState
+        viewModel.uiStatePublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: handleUIState)
             .store(in: &subscribers)
@@ -40,17 +38,13 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     }
     
     func inject(_ container: Container) {
-        if let viewModel = container.resolve(LeaguesViewModel.self) {
+        if let viewModel = container.resolve(AnyLeaguesViewModel.self) {
             self.viewModel = viewModel
         } else {
-            var model = container.resolve(AnyLeaguesModel.self)
-            if model == nil {
-                model = LeaguesModel(sportType: args,
-                                     remoteService: container.require(LeagueRemoteService.self),
+            let model = LeaguesModel(remoteService: container.require(LeaguesRemoteService.self),
                                      database: container.require((any AnyLeagueDatabase).self),
                                      reachability: container.require(Reachability.self))
-            }
-            viewModel = LeaguesViewModel(model: model!)
+            viewModel = LeaguesViewModel(sportType: args, model: model)
         }
     }
     
@@ -91,11 +85,20 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
         let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
         
         cell.setLeague(leagues[indexPath.item])
-
+        
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let league = leagues[indexPath.row]
+        if let leagueIdentity = league.identity {
+            let vc = instantiate(LeagueViewController.self, args: leagueIdentity)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

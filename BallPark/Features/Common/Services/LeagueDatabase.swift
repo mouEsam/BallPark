@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol AnyLeagueDatabase: DynamicDatabase<League> {
+protocol AnyLeagueDatabase: DynamicDatabase<League>, FavouritesDatabase {
     func getAllBySportType(_ sportType: SportType) -> Result<[League], Error>
 }
 
@@ -16,9 +16,11 @@ class LeagueDatabase: AnyLeagueDatabase {
     typealias Entity = League
     
     private let context: NSManagedObjectContext
+    private let notificationCenter: NotificationCenter
     
-    init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext, notificationCenter: NotificationCenter) {
         self.context = context
+        self.notificationCenter = notificationCenter
     }
     
     private func fetchRequest() -> NSFetchRequest<League> {
@@ -74,9 +76,15 @@ extension LeagueDatabase: FavouritesDatabase {
     }
     
     private func setFavourite(_ object: League, _ isFavourite: Bool) -> Result<Void, Error> {
+        if object.isFavourite == isFavourite { return .success(Void()) }
+        
         let favourite = object.favourite ?? FavouriteLeague(context: context)
         favourite.isFavourite = isFavourite
         object.favourite = favourite
+        
+        let notification = LeagueFavouriteNotification(object)
+        notificationCenter.post(notification)
+        
         return context.trySaveIfNeeded()
     }
 }
