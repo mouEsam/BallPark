@@ -14,12 +14,8 @@ protocol WithLoaderView: UIViewController {}
 
 extension WithLoaderView {
     var loader: UIActivityIndicatorView? {
-        get {
-            objc_getAssociatedObject(self, &loaderKey) as? UIActivityIndicatorView
-        }
-        set {
-            objc_setAssociatedObject(self, &loaderKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
+        get { objc_getAssociatedObject(self, &loaderKey) as? UIActivityIndicatorView }
+        set { objc_setAssociatedObject(self, &loaderKey, newValue, .OBJC_ASSOCIATION_ASSIGN) }
     }
     
     func showLoader() {

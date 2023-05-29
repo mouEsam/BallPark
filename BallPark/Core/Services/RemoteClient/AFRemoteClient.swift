@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-struct AFremoteClient: RemoteClient {
+struct AFRemoteClient: RemoteClient {
     
     let baseUrl: URL
     

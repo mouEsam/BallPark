@@ -1,37 +1,37 @@
 //
-//  FavouriteLeaguesViewModel.swift
+//  FavouriteTeamsViewModel.swift
 //  BallPark
 //
-//  Created by Mostafa Ibrahim on 28/05/2023.
+//  Created by Mostafa Ibrahim on 29/05/2023.
 //
 
 import Foundation
 import Combine
 
-class FavouriteLeaguesViewModel: AnyLeaguesViewModel {
+class FavouriteTeamsViewModel {
     
-    @Published private(set) var uiState: UIState<[League]> = .initial
-    var uiStatePublisher: Published<UIState<[League]>>.Publisher { $uiState }
+    @Published private(set) var uiState: UIState<[Team]> = .initial
+    var uiStatePublisher: Published<UIState<[Team]>>.Publisher { $uiState }
     
-    private let model: FavouriteLeaguesModel
+    private let model: FavouriteTeamsModel
     private let notificationCenter: NotificationCenter
-    private let queue: DispatchQueue = DispatchQueue(label: "favouriteLeagues", attributes: .concurrent)
+    private let queue: DispatchQueue = DispatchQueue(label: "favouriteTeams", attributes: .concurrent)
     private var started: Bool = false
     private var cancellables: Set<AnyCancellable> = []
     
-    init(model: FavouriteLeaguesModel, notificationCenter: NotificationCenter) {
+    init(model: FavouriteTeamsModel, notificationCenter: NotificationCenter) {
         self.model = model
         self.notificationCenter = notificationCenter
     }
     
-    func loadLeagues() {
+    func loadTeams() {
         uiState = .loading
         queue.async {
-            self.loadLeaguesImpl()
+            self.loadTeamsImpl()
         }
     }
     
-    private func loadLeaguesImpl() {
+    private func loadTeamsImpl() {
         model.load { result in
             self.uiState = result.toUiState()
             self.startListening()
@@ -42,11 +42,12 @@ class FavouriteLeaguesViewModel: AnyLeaguesViewModel {
         if (!started) {
             started = true
             notificationCenter
-                .publisher(for: LeagueFavouriteNotification.name)
+                .publisher(for: TeamFavouriteNotification.name)
                 .receive(on: queue)
                 .sink { notification in
-                    self.loadLeaguesImpl()
+                    self.loadTeamsImpl()
                 }.store(in: &cancellables)
         }
     }
 }
+

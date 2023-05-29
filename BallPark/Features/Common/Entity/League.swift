@@ -35,10 +35,10 @@ public class League: NSManagedObject, Decodable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        self.leagueKey = try container.decode(Int64.self, forKey: .leagueKey)
-        self.leagueName = try container.decode(String.self, forKey: .leagueName)
-        self.leagueLogo = try container.decodeIfPresent(String.self, forKey: .leagueLogo)
-        self.leagueYear = try container.decodeIfPresent(String.self, forKey: .leagueYear)
+        self.key = try container.decode(Int64.self, forKey: .leagueKey)
+        self.name = try container.decode(String.self, forKey: .leagueName)
+        self.logo = try container.decodeIfPresent(String.self, forKey: .leagueLogo)
+        self.year = try container.decodeIfPresent(String.self, forKey: .leagueYear)
         self.countryKey = try container.decodeIfPresent(Int64.self, forKey: .countryKey).toDecimal()
         self.countryName = try container.decodeIfPresent(String.self, forKey: .countryName)
         self.countryLogo = try container.decodeIfPresent(String.self, forKey: .countryLogo)
@@ -71,7 +71,7 @@ extension League {
     
     var identity: LeagueIdentity? {
         if let sportType = sportType {
-            return LeagueIdentity(leagueKey: leagueKey, sportType: sportType)
+            return LeagueIdentity(leagueKey: key, sportType: sportType)
         }
         return nil
     }

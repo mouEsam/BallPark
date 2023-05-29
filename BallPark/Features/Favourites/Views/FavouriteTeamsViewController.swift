@@ -1,8 +1,8 @@
 //
-//  leaguesTableViewController.swift
+//  FavouriteTeamsViewController.swift
 //  BallPark
 //
-//  Created by Mostafa Ibrahim on 26/05/2023.
+//  Created by Mostafa Ibrahim on 29/05/2023.
 //
 
 import UIKit
@@ -10,17 +10,16 @@ import Combine
 import Swinject
 import Reachability
 
-private let leagueCellId = "leagueCellId"
+private let teamCellId = "teamCellId"
 
-class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoaderView {
-    typealias Args = SportType
-    class var storyboardId: String { "leaguesVC" }
+class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, WithLoaderView {
+    class var storyboardId: String { "favouriteTeamsVC" }
     
-    private var viewModel: (any AnyLeaguesViewModel)!
+    private var viewModel: FavouriteTeamsViewModel!
     private var subscribers: [AnyCancellable] = []
     
-    private var leagues: [League] = []
-        
+    private var teams: [Team] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.uiStatePublisher
@@ -28,27 +27,22 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
             .sink(receiveValue: handleUIState)
             .store(in: &subscribers)
         setupUI()
-        viewModel.loadLeagues()
+        viewModel.loadTeams()
     }
     
     func setupUI() {
-        tableView.register(UINib(nibName: "LeagueTableViewCell",
-                                 bundle: Bundle(for: LeagueTableViewCell.self)),
-                           forCellReuseIdentifier: leagueCellId)
+        tableView.register(UINib(nibName: "TeamTableViewCell",
+                                 bundle: Bundle(for: TeamTableViewCell.self)),
+                           forCellReuseIdentifier: teamCellId)
     }
     
     func inject(_ container: Container) {
-        if let viewModel = container.resolve(AnyLeaguesViewModel.self) {
-            self.viewModel = viewModel
-        } else {
-            let model = LeaguesModel(remoteService: container.require(LeaguesRemoteService.self),
-                                     database: container.require((any AnyLeagueDatabase).self),
-                                     reachability: container.require(Reachability.self))
-            viewModel = LeaguesViewModel(sportType: args, model: model)
-        }
+        let model = FavouriteTeamsModel(database: container.require((any FavouritesDatabase<Team>).self))
+        viewModel = FavouriteTeamsViewModel(model: model,
+                                            notificationCenter: container.require(NotificationCenter.self))
     }
     
-    func handleUIState(_ state: UIState<[League]>) {
+    func handleUIState(_ state: UIState<[Team]>) {
         switch (state) {
             case .loading:
                 showLoader()
@@ -67,9 +61,8 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     
     // MARK: - Table view data source
     
-    func setData(_ data: [League]) {
-        leagues = data
-        print("\(data.count)")
+    func setData(_ data: [Team]) {
+        teams = data
         tableView.reloadData()
     }
     
@@ -78,14 +71,14 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return leagues.count
+        return teams.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: teamCellId, for: indexPath) as! TeamTableViewCell
         
-        cell.setLeague(leagues[indexPath.item])
+        cell.setTeam(teams[indexPath.item])
         
         return cell
     }
@@ -96,9 +89,9 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let league = leagues[indexPath.row]
-        if let leagueIdentity = league.identity {
-            let vc = instantiate(LeagueViewController.self, args: leagueIdentity)
+        let team = teams[indexPath.row]
+        if let teamIdentity = team.identity {
+            let vc = instantiate(TeamViewController.self, args: teamIdentity)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

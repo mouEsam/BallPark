@@ -14,10 +14,10 @@ class LeagueTableViewCell: UITableViewCell {
     @IBOutlet weak var leagueLabel: UILabel!
     
     func setLeague(_ league: League) {
-        leagueLabel.text = league.leagueName
+        leagueLabel.text = league.name
         
         let placeholder = UIImage(named: league.sportType?.uiImage ?? "football")
-        if let leagueLogo = league.leagueLogo,
+        if let leagueLogo = league.logo,
            let imageUrl = URL(string: leagueLogo) {
             KF.url(imageUrl)
               .placeholder(placeholder)

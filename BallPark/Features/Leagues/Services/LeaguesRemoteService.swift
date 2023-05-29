@@ -33,7 +33,7 @@ class LeaguesRemoteService {
                     let response = try self.decoder.decode(target: ListResponse<League>.self,
                                                            data: data,
                                                            userInfo: [.managedObjectContext: self.context, .sportType: sportType])
-                    completion(.success(response.result))
+                    completion(.success(response.result ?? []))
                 } catch {
                     completion(.failure(error))
                 }
