@@ -10,4 +10,5 @@ import Foundation
 extension CodingUserInfoKey {
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")!
     static let sportType = CodingUserInfoKey(rawValue: "sportType")!
+    static let leagueKey = CodingUserInfoKey(rawValue: "leagueKey")!
 }

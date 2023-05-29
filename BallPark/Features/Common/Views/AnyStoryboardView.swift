@@ -29,4 +29,17 @@ extension AnyStoryboardView {
         objc_setAssociatedObject(self, &ContainerHandle, container, .OBJC_ASSOCIATION_ASSIGN)
         inject(container)
     }
+    
+    func associateContainerWithChild(child: AnyStoryboardView) {
+        let container = objc_getAssociatedObject(self, &ContainerHandle) as! Container
+        return child.associateContainer(container: container)
+    }
+    
+    func associateContainerWithChildren() {
+        print("\(self) \(children)")
+        for child in children.compactMap({ $0 as? AnyStoryboardView }) {
+            let container = objc_getAssociatedObject(self, &ContainerHandle) as! Container
+            child.associateContainer(container: container)
+        }
+    }
 }

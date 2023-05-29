@@ -10,6 +10,8 @@ import Swinject
 
 class FavouriteLeaguesViewController: LeaguesViewController {
     
+    override class var storyboardId: String { "favouriteLeaguesVC" }
+    
     override func inject(_ container: Container) {
         let wrappedContainer = Container(parent: container)
         wrappedContainer.register(AnyLeaguesViewModel.self) { resolver in

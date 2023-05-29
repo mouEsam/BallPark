@@ -9,5 +9,5 @@ import Foundation
 
 struct ListResponse<T: Decodable>: Decodable {
     let success: Int
-    let result: [T]
+    let result: [T]?
 }

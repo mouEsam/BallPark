@@ -9,19 +9,56 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="FavouriteTeam" representedClassName="FavouriteTeam" syncable="YES" codeGenerationType="class">
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="favourite" inverseEntity="Team"/>
+    </entity>
     <entity name="League" representedClassName="League" syncable="YES" codeGenerationType="category">
         <attribute name="countryKey" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="countryLogo" optional="YES" attributeType="String"/>
         <attribute name="countryName" optional="YES" attributeType="String"/>
-        <attribute name="leagueKey" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="leagueLogo" optional="YES" attributeType="String"/>
-        <attribute name="leagueName" attributeType="String"/>
-        <attribute name="leagueYear" optional="YES" attributeType="String"/>
+        <attribute name="key" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="logo" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
         <attribute name="sportTypeRaw" attributeType="String" customClassName="[]"/>
+        <attribute name="year" optional="YES" attributeType="String"/>
         <relationship name="favourite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavouriteLeague" inverseName="league" inverseEntity="FavouriteLeague"/>
+        <relationship name="teams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Team" inverseName="league" inverseEntity="Team"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="leagueKey"/>
+                <constraint value="key"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Player" representedClassName="Player" syncable="YES" codeGenerationType="category">
+        <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="goals" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="key" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="matchPlayed" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="number" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="redCards" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="yellowCards" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="players" inverseEntity="Team"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="key"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="Team" representedClassName="Team" syncable="YES" codeGenerationType="category">
+        <attribute name="key" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="logo" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="favourite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavouriteTeam" inverseName="team" inverseEntity="FavouriteTeam"/>
+        <relationship name="league" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="League" inverseName="teams" inverseEntity="League"/>
+        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="team" inverseEntity="Player"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="key"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>

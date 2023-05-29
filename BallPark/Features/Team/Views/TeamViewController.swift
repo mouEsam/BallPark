@@ -1,37 +1,33 @@
 //
-//  LeagueViewController.swift
+//  TeamViewController.swift
 //  BallPark
 //
-//  Created by Mostafa Ibrahim on 28/05/2023.
+//  Created by Mostafa Ibrahim on 29/05/2023.
 //
 
 import UIKit
 import Swinject
 import Combine
 
-class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderView {
-    typealias Args = LeagueIdentity
+class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView {
+    typealias Args = TeamIdentity
     
-    static let storyboardId: String = "leagueVC"
+    static let storyboardId: String = "teamVC"
     
-    private var viewModel: LeagueViewModel!
+    private var viewModel: TeamViewModel!
     private weak var favouriteButton: UIBarButtonItem!
     private var cancellables: Set<AnyCancellable> = []
     
-    private weak var nextEventsVC: NextEventsViewController!
-    private weak var latestEventsVC: LatestResultsViewController!
-    private weak var teamsVC: TeamsViewController!
-    
     func inject(_ container: Container) {
-        viewModel = LeagueViewModel(leagueIdentity: args,
-                                    model: LeagueModel(database: container.require((any AnyLeagueDatabase).self)),
+        viewModel = TeamViewModel(teamIdentity: args,
+                                    model: TeamModel(database: container.require((any AnyTeamDatabase).self)),
                                     notificationCenter: container.require(NotificationCenter.self))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.loadLeague()
+        viewModel.loadTeam()
     }
     
     private func setupUI() {
@@ -46,9 +42,9 @@ class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderVie
             .receive(on: DispatchQueue.main)
             .map { isFavourite in
                 if isFavourite == true {
-                    return UIImage(systemName: "heart.fill")
+                    return UIImage(systemName: "star.fill")
                 } else {
-                    return UIImage(systemName: "heart")
+                    return UIImage(systemName: "star")
                 }
             }.assign(to: \.image, on: favouriteButton)
             .store(in: &cancellables)
@@ -69,25 +65,6 @@ class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderVie
                         break
                 }
             }.store(in: &cancellables)
-    }
-    
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let childVC = segue.destination as? NextEventsViewController {
-            nextEventsVC = childVC
-            associateArgsWithChild(child: childVC)
-            associateContainerWithChild(child: childVC)
-        } else if let childVC = segue.destination as? LatestResultsViewController {
-            latestEventsVC = childVC
-            associateArgsWithChild(child: childVC)
-            associateContainerWithChild(child: childVC)
-        } else if let childVC = segue.destination as? TeamsViewController {
-            teamsVC = childVC
-            associateArgsWithChild(child: childVC)
-            associateContainerWithChild(child: childVC)
-        }
     }
     
 }
