@@ -10,6 +10,7 @@ import CoreData
 
 protocol AnyTeamDatabase: DynamicDatabase<Team>, FavouritesDatabase {
     func getAllByLeague(_ leagueKey: Int64) -> Result<[Team], Error>
+    func addPlayersToTeam(_ teamKey: Int64, _ players: [Player]) -> Result<Void, Error>
 }
 
 class TeamDatabase: AnyTeamDatabase {
@@ -33,6 +34,13 @@ class TeamDatabase: AnyTeamDatabase {
         let fetchRequest = fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "league.key == %d", leagueKey)
         return context.tryFetch(fetchRequest)
+    }
+    
+    func addPlayersToTeam(_ teamKey: Int64, _ players: [Player]) -> Result<Void, Error> {
+        getById(teamKey).flatMap { league in
+            league.map { $0.addToPlayers(NSSet(array: players)) }
+            return commit()
+        }
     }
     
     func getById(_ id: Int64) -> Result<Team?, Error> {

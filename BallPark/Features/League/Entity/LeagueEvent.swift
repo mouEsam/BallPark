@@ -19,12 +19,14 @@ struct LeagueEvent: Decodable {
     let leagueDetails: LeagueDetails
     let homeTeam: HomeTeam
     let awayTeam: AwayTeam
+    let sportType: SportType
     
     init(from decoder: Decoder) throws {
         self.eventDetails = try decoder.singleValueContainer().decode(EventDetails.self)
         self.leagueDetails = try decoder.singleValueContainer().decode(LeagueDetails.self)
         self.homeTeam = try decoder.singleValueContainer().decode(HomeTeam.self)
         self.awayTeam = try decoder.singleValueContainer().decode(AwayTeam.self)
+        self.sportType = decoder.userInfo[CodingUserInfoKey.sportType] as! SportType
     }
     
     struct HomeTeam: MiniTeam, Decodable {

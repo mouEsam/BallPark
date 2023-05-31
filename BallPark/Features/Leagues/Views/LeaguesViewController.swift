@@ -12,10 +12,11 @@ import Reachability
 
 private let leagueCellId = "leagueCellId"
 
-class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoaderView {
+class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoaderView, WithEmptyView, WithErrorView {
     typealias Args = SportType
     class var storyboardId: String { "leaguesVC" }
     
+    private var imageLoader: (any AnyImageLoader)!
     private var viewModel: (any AnyLeaguesViewModel)!
     private var subscribers: [AnyCancellable] = []
     
@@ -38,6 +39,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     }
     
     func inject(_ container: Container) {
+        imageLoader = container.require((any AnyImageLoader).self)
         if let viewModel = container.resolve(AnyLeaguesViewModel.self) {
             self.viewModel = viewModel
         } else {
@@ -51,23 +53,26 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     func handleUIState(_ state: UIState<[League]>) {
         switch (state) {
             case .loading:
-                showLoader()
+                self.showLoader()
+                self.hideEmpty()
+                self.hideError()
             case .loaded(data: let data):
-                setData(Array(data.data))
-                hideLoader()
-                break
+                self.hideLoader()
+                self.hideError()
+                self.hideEmpty()
+                self.setData(data.data)
             case .error(error: let error):
-                print(error)
-                hideLoader()
+                self.hideLoader()
+                self.hideError()
+                self.showError(message: error.localizedDescription)
             default:
-                hideLoader()
                 break
         }
     }
     
     // MARK: - Table view data source
     
-    func setData(_ data: [League]) {
+    private func setData(_ data: [League]) {
         leagues = data
         print("\(data.count)")
         tableView.reloadData()
@@ -85,7 +90,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
         
-        cell.setLeague(leagues[indexPath.item])
+        cell.setLeague(leagues[indexPath.item], imageLoader: imageLoader)
         
         return cell
     }

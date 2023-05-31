@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             container.register(Reachability.self) { resolver in reachability }
         }
         container.register(Calendar.self) { resolver in Calendar.current }
+        container.register((any AnyImageLoader).self) { resolver in KFImageLoader() }
         container.register(RemoteClient.self) { resolver in
             AFRemoteClient(baseUrl: URL(string: "https://apiv2.allsportsapi.com/")!)
         }
@@ -55,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         container.register(TeamDatabase.self) { resolver in
             TeamDatabase(context: resolver.require(NSManagedObjectContext.self),
-                           notificationCenter: resolver.require(NotificationCenter.self)
+                         notificationCenter: resolver.require(NotificationCenter.self)
             )
         }
         container.register((any Database<Team>).self) { resolver in
@@ -66,6 +67,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         container.register((any FavouritesDatabase<Team>).self) { resolver in
             resolver.require(TeamDatabase.self)
+        }
+        
+        
+        
+        container.register(PlayerDatabase.self) { resolver in
+            PlayerDatabase(context: resolver.require(NSManagedObjectContext.self),
+                           notificationCenter: resolver.require(NotificationCenter.self)
+            )
+        }
+        container.register((any Database<Player>).self) { resolver in
+            resolver.require(PlayerDatabase.self)
+        }
+        container.register((any AnyPlayerDatabase).self) { resolver in
+            resolver.require(PlayerDatabase.self)
         }
         
         container.register(LeaguesRemoteService.self) { [weak self] resolver in
@@ -85,6 +100,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                       decoder: resolver.require(AnyDecoder.self),
                                       context: resolver.require(NSManagedObjectContext.self),
                                       environment: resolver.require(AnyEnvironmentProvider.self))
+        }
+        container.register(PlayersRemoteService.self) { [weak self] resolver in
+            return PlayersRemoteService(remoteClient: resolver.require(RemoteClient.self),
+                                        decoder: resolver.require(AnyDecoder.self),
+                                        context: resolver.require(NSManagedObjectContext.self),
+                                        environment: resolver.require(AnyEnvironmentProvider.self))
         }
         return container
     }()
