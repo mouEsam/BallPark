@@ -9,7 +9,7 @@ import UIKit
 import Swinject
 import Combine
 
-class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderView {
+class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderView, WithErrorView {
     typealias Args = LeagueIdentity
     
     static let storyboardId: String = "leagueVC"
@@ -59,18 +59,23 @@ class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderVie
                 switch state {
                     case .loading:
                         self.showLoader()
+                        self.hideError()
                     case .loaded(data: let data):
                         self.hideLoader()
-                        self.navigationItem.title = data.data.name
+                        self.hideError()
+                        self.setData(data.data)
                     case .error(error: let error):
                         self.hideLoader()
-                        print(error)
+                        self.showError(message: error.localizedDescription)
                     default:
                         break
                 }
             }.store(in: &cancellables)
     }
     
+    private func setData(_ data: League) {
+        navigationItem.title = data.name
+    }
     
     // MARK: - Navigation
     

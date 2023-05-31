@@ -10,7 +10,7 @@ import Swinject
 
 private let reuseIdentifier = "sportCell"
 
-class SportsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, AnyStoryboardView {
+class SportsViewController: UICollectionViewController, AnyStoryboardView {
     
     private let sports = [SportType.football,
                           SportType.basketball,
@@ -21,6 +21,9 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupNavigationTitle(self)
+        tabBarController?.delegate = self
         
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
@@ -66,7 +69,9 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         let vc = instantiate(LeaguesViewController.self, args: sports[indexPath.item]);
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+}
+
+extension SportsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
         let insets = layout.sectionInset + collectionView.contentInset
@@ -74,5 +79,15 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         let height = collectionView.bounds.height - layout.minimumLineSpacing - insets.top - insets.bottom
         
         return CGSize(width: width/2, height: height/2)
+    }
+}
+
+extension SportsViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        setupNavigationTitle(viewController)
+    }
+    
+    func setupNavigationTitle(_ viewController: UIViewController) {
+        tabBarController?.navigationItem.title = viewController.navigationItem.title
     }
 }

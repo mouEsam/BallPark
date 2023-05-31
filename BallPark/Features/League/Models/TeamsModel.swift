@@ -38,11 +38,12 @@ class TeamsModel {
     private func remoteLoad(_ leagueIdentity: LeagueIdentity, completion: @escaping (Result<SourcedData<[Team]>, Error>) -> Void) {
         remoteService.fetch(leagueIdentity) { result in
             completion(result.flatMap { remoteTeams in
-                return self.leagueDatabase.addTeamsToLeague(leagueIdentity.leagueKey, remoteTeams).flatMap { _ in
-                    self.localLoad(leagueIdentity).map { .remote($0) }
-                }.flatMapError { error in
-                        .success(.remote(remoteTeams, error))
-                }
+                return self.leagueDatabase.addTeamsToLeague(leagueIdentity.leagueKey, remoteTeams)
+                    .flatMap { _ in
+                        self.localLoad(leagueIdentity).map { .remote($0) }
+                    }.flatMapError { error in
+                            .success(.remote(remoteTeams, error))
+                    }
             }.flatMapError({ error in
                 self.localLoad(leagueIdentity).flatMap { localTeams in
                         .success(.local(localTeams, error))

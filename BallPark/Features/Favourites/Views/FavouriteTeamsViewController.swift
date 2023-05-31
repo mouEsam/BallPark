@@ -12,9 +12,10 @@ import Reachability
 
 private let teamCellId = "teamCellId"
 
-class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, WithLoaderView {
+class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, WithLoaderView, WithEmptyView, WithErrorView {
     class var storyboardId: String { "favouriteTeamsVC" }
     
+    private var imageLoader: (any AnyImageLoader)!
     private var viewModel: FavouriteTeamsViewModel!
     private var subscribers: [AnyCancellable] = []
     
@@ -37,6 +38,7 @@ class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, Wi
     }
     
     func inject(_ container: Container) {
+        imageLoader = container.require((any AnyImageLoader).self)
         let model = FavouriteTeamsModel(database: container.require((any FavouritesDatabase<Team>).self))
         viewModel = FavouriteTeamsViewModel(model: model,
                                             notificationCenter: container.require(NotificationCenter.self))
@@ -45,25 +47,31 @@ class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, Wi
     func handleUIState(_ state: UIState<[Team]>) {
         switch (state) {
             case .loading:
-                showLoader()
+                self.showLoader()
+                self.hideEmpty()
+                self.hideError()
             case .loaded(data: let data):
-                setData(Array(data.data))
-                hideLoader()
-                break
+                self.hideLoader()
+                self.hideError()
+                self.hideEmpty()
+                self.setData(data.data)
             case .error(error: let error):
-                print(error)
-                hideLoader()
+                self.hideLoader()
+                self.hideError()
+                self.showError(message: error.localizedDescription)
             default:
-                hideLoader()
                 break
         }
     }
     
     // MARK: - Table view data source
     
-    func setData(_ data: [Team]) {
+    private func setData(_ data: [Team]) {
         teams = data
         tableView.reloadData()
+        if data.isEmpty {
+            showEmpty(message: "No teams found")
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -78,7 +86,7 @@ class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, Wi
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: teamCellId, for: indexPath) as! TeamTableViewCell
         
-        cell.setTeam(teams[indexPath.item])
+        cell.setTeam(teams[indexPath.item], imageLoader: imageLoader)
         
         return cell
     }

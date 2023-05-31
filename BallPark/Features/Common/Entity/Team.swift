@@ -16,7 +16,7 @@ public class Team: NSManagedObject, Decodable {
     }
     
     public required convenience init(from decoder: Decoder) throws {
-        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext  else {
+        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
             fatalError("Failed to decode Player!")
         }
         
@@ -27,8 +27,6 @@ public class Team: NSManagedObject, Decodable {
         self.key = try container.decode(Int64.self, forKey: .key)
         self.name = try container.decode(String.self, forKey: .name)
         self.logo = try container.decodeIfPresent(String.self, forKey: .logo)?.nilIfBlank()
-        
-        self.addToPlayers(NSSet(array: try container.decodeIfPresent([Player].self, forKey: .players) ?? []))
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -38,7 +36,6 @@ public class Team: NSManagedObject, Decodable {
         case players = "players"
     }
 }
-
 extension Team {
     var isFavourite: Bool {
         favourite?.isFavourite ?? false

@@ -26,16 +26,16 @@ public class Player: NSManagedObject, Decodable {
         
         self.key = try container.decode(Int64.self, forKey: .key)
         self.name = try container.decode(String.self, forKey: .name)
-        self.number = try container.decode(Int16.self, forKey: .number)
+        self.number = try container.decodeIfPresent(String.self, forKey: .number)
         self.country = try container.decodeIfPresent(String.self, forKey: .country)
         self.type = try container.decodeIfPresent(String.self, forKey: .type)
-        self.age = try container.decode(Int16.self, forKey: .age)
-        self.matchPlayed = try container.decode(Int16.self, forKey: .matchPlayed)
-        self.goals = try container.decode(Int16.self, forKey: .goals)
-        self.yellowCards = try container.decode(Int16.self, forKey: .yellowCards)
-        self.redCards = try container.decode(Int16.self, forKey: .redCards)
+        self.age = try container.decodeIfPresent(String.self, forKey: .age)
+        self.matchPlayed = try container.decodeIfPresent(String.self, forKey: .matchPlayed)
+        self.goals = try container.decodeIfPresent(String.self, forKey: .goals)
+        self.yellowCards = try container.decodeIfPresent(String.self, forKey: .yellowCards)
+        self.redCards = try container.decodeIfPresent(String.self, forKey: .redCards)
         self.image = try container.decodeIfPresent(String.self, forKey: .image)?.nilIfBlank()
-        
+        self.team = team
         
     }
     

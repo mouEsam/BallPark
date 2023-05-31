@@ -10,10 +10,11 @@ import Combine
 import Swinject
 import Reachability
 
-class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLoaderView {
+class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLoaderView, WithEmptyView, WithErrorView {
     private static let teamCellId = "teamCell"
     typealias Args = LeagueIdentity
     
+    private var imageLoader: (any AnyImageLoader)!
     private var viewModel: TeamsViewModel!
     private var cancellables: Set<AnyCancellable> = []
     
@@ -22,6 +23,7 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
     @IBOutlet weak var collectionView: UICollectionView!
     
     func inject(_ container: Container) {
+        imageLoader = container.require((any AnyImageLoader).self)
         let model = TeamsModel(remoteService: container.require(TeamsRemoteService.self),
                                teamsDatabase: container.require((any AnyTeamDatabase).self),
                                leagueDatabase: container.require((any AnyLeagueDatabase).self),
@@ -41,18 +43,28 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        collectionView.contentInset.left = 10
+        collectionView.contentInset.right = 10
+        collectionView.contentInset.bottom = 10
+        
         viewModel.$uiState
             .receive(on: DispatchQueue.main)
             .sink { state in
                 switch state {
                     case .loading:
                         self.showLoader()
+                        self.hideEmpty()
+                        self.hideError()
                     case .loaded(data: let data):
                         self.hideLoader()
+                        self.hideError()
+                        self.hideEmpty()
                         self.setData(data.data)
                     case .error(error: let error):
                         self.hideLoader()
-                        print(error)
+                        self.hideError()
+                        self.showError(message: error.localizedDescription,
+                                       anchorTo: self.collectionView)
                     default:
                         break
                 }
@@ -64,9 +76,12 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
 }
 
 extension TeamsViewController: UICollectionViewDataSource {
-    func setData(_ data: [Team]) {
+    private func setData(_ data: [Team]) {
         teams = data
         collectionView.reloadData()
+        if data.isEmpty {
+            showEmpty(message: "No teams found")
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -89,6 +104,9 @@ extension TeamsViewController: UICollectionViewDataSource {
         let nameLbl = cell.viewWithTag(2) as! UILabel
         
         nameLbl.text = team.name
+        
+        imageLoader.load(imageUrl: team.logo, into: imageV, placeholder: team.sportType.flatMap { UIImage(named: $0.uiImage) })
+        
         return cell
     }
 }
@@ -106,8 +124,10 @@ extension TeamsViewController: UICollectionViewDelegate {
 
 extension TeamsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.bounds.height
-        let width = height - 20
-        return CGSize(width: width, height: height)
+        let insets = collectionView.contentInset + (collectionViewLayout as! UICollectionViewFlowLayout).sectionInset
+        let collectioheight = collectionView.bounds.height - insets.top - insets.bottom
+        
+        let width = collectioheight - 20
+        return CGSize(width: width, height: collectioheight)
     }
 }

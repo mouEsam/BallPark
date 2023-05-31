@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Reachability
 
 class TeamModel {
     private let database: (any AnyTeamDatabase)
