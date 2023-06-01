@@ -33,8 +33,8 @@ extension WithEmptyView {
         wrapper.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            wrapper.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
-            wrapper.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor),
+            wrapper.heightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.heightAnchor),
+            wrapper.widthAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.widthAnchor),
             wrapper.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             wrapper.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])

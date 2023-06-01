@@ -23,12 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         container.register(Calendar.self) { resolver in Calendar.current }
         container.register((any AnyImageLoader).self) { resolver in KFImageLoader() }
-        container.register(RemoteClient.self) { resolver in
+        container.register((any RemoteClient).self) { resolver in
             AFRemoteClient(baseUrl: URL(string: "https://apiv2.allsportsapi.com/")!)
         }
-        container.register(AnyDecoder.self) { resolver in
+        container.register((any AnyDecoder).self) { resolver in
             JsonDecoder()
         }
+        container.register((any AnyRemoteListFetchStrategy).self) { resolver in
+            RemoteListFetchStrategy(remoteClient: resolver.require((any RemoteClient).self),
+                                    decoder: resolver.require((any AnyDecoder).self))
+        }
+        container.register((any AnyDataFetchCacheStrategy).self) { resolver in
+            DataFetchCacheStrategy(reachability: resolver.resolve(Reachability.self))
+        }
+        
         container.register(NSManagedObjectContext.self) { [weak self] resolver in
             guard let self = self else { fatalError("Unresolved self") }
             return self.persistentContainer.viewContext
@@ -84,26 +92,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         container.register(LeaguesRemoteService.self) { [weak self] resolver in
-            return LeaguesRemoteService(remoteClient: resolver.require(RemoteClient.self),
-                                        decoder: resolver.require(AnyDecoder.self),
+            return LeaguesRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                         context: resolver.require(NSManagedObjectContext.self),
                                         environment: resolver.require(AnyEnvironmentProvider.self))
         }
         container.register(LeagueEventsRemoteService.self) { [weak self] resolver in
-            return LeagueEventsRemoteService(remoteClient: resolver.require(RemoteClient.self),
-                                             decoder: resolver.require(AnyDecoder.self),
+            return LeagueEventsRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                              context: resolver.require(NSManagedObjectContext.self),
                                              environment: resolver.require(AnyEnvironmentProvider.self))
         }
         container.register(TeamsRemoteService.self) { [weak self] resolver in
-            return TeamsRemoteService(remoteClient: resolver.require(RemoteClient.self),
-                                      decoder: resolver.require(AnyDecoder.self),
+            return TeamsRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                       context: resolver.require(NSManagedObjectContext.self),
                                       environment: resolver.require(AnyEnvironmentProvider.self))
         }
         container.register(PlayersRemoteService.self) { [weak self] resolver in
-            return PlayersRemoteService(remoteClient: resolver.require(RemoteClient.self),
-                                        decoder: resolver.require(AnyDecoder.self),
+            return PlayersRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                         context: resolver.require(NSManagedObjectContext.self),
                                         environment: resolver.require(AnyEnvironmentProvider.self))
         }

@@ -25,7 +25,7 @@ class NextEventsModel: AnyLeagueEventsModel {
     private func remoteLoad(_ leagueIdentity: LeagueIdentity,
                             completion: @escaping (Result<SourcedData<[LeagueEvent]>, Error>) -> Void) {
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: Date())!
-        let to = calendar.date(byAdding: .day, value: AppConfigs.maxApiIntervalDays, to: tomorrow)
+        let to = calendar.date(byAdding: .day, value: AppConfigs.maxApiIntervalDays, to: tomorrow)!
         
         remoteService.fetch(leagueIdentity, from: tomorrow, to: to) { result in
             completion(result.map { .remote($0) })

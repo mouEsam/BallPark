@@ -27,7 +27,7 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
         let model = TeamsModel(remoteService: container.require(TeamsRemoteService.self),
                                teamsDatabase: container.require((any AnyTeamDatabase).self),
                                leagueDatabase: container.require((any AnyLeagueDatabase).self),
-                               reachability: container.resolve(Reachability.self))
+                               fetchCacheStrategy: container.require((AnyDataFetchCacheStrategy).self))
         viewModel = TeamsViewModel(leagueIdentity: args,
                                    model: model)
     }

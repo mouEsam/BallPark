@@ -45,7 +45,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
         } else {
             let model = LeaguesModel(remoteService: container.require(LeaguesRemoteService.self),
                                      database: container.require((any AnyLeagueDatabase).self),
-                                     reachability: container.require(Reachability.self))
+                                     fetchCacheStrategy: container.require((any AnyDataFetchCacheStrategy).self))
             viewModel = LeaguesViewModel(sportType: args, model: model)
         }
     }
@@ -74,7 +74,9 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     
     private func setData(_ data: [League]) {
         leagues = data
-        print("\(data.count)")
+        if data.isEmpty {
+            showEmpty(message: "No leagues found")
+        }
         tableView.reloadData()
     }
     

@@ -5,56 +5,44 @@
 //  Created by Mostafa Ibrahim on 28/05/2023.
 //
 
+//  https://apiv2.allsportsapi.com/football/?&met=Fixtures&leagueId=207&from=2021-05-18&to=2021-05-18&APIkey=161cc5f55f286fc875232e256163ad6dfc437500b39b885b4a745fdd79326354
+
 import Foundation
 import CoreData
 
 class LeagueEventsRemoteService {
     
+    private let fetchStrategy: any AnyRemoteListFetchStrategy
     private let environment: any AnyEnvironmentProvider
-    private let remoteClient: any RemoteClient
-    private let decoder: any AnyDecoder
     private let context: NSManagedObjectContext
     private let dateFormatter = DateFormatter()
     
     
-    init(remoteClient: some RemoteClient,
-         decoder: some AnyDecoder,
+    init(fetchStrategy: some AnyRemoteListFetchStrategy,
          context: NSManagedObjectContext,
          environment: some AnyEnvironmentProvider) {
-        self.remoteClient = remoteClient
-        self.decoder = decoder
+        self.fetchStrategy = fetchStrategy
         self.context = context
         self.environment = environment
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_US")
     }
     
     func fetch(_ leagueIdentity: LeagueIdentity,
-               from: Date? = nil,
-               to: Date? = nil,
+               from: Date,
+               to: Date,
                completion: @escaping (Result<[LeagueEvent], Error>) -> Void) {
-        let query = ["met":"Fixtures",
-                     "leagueId":"\(leagueIdentity.leagueKey)",
-                     "from": from.flatMap(dateFormatter.string(from:)),
-                     "to": to.flatMap(dateFormatter.string(from:)),
-                     "APIkey": environment.sportsApiKey].compactMapValues { $0 }
-        _ = remoteClient.request(HttpMethod.get,
-                                 path: leagueIdentity.sportType.apiPath,
-                                 queryParams: query) { result in
-            if case let .failure(error) = result {
-                completion(.failure(error))
-            } else if case let .success(data) = result, let data = data {
-                do {
-                    let response = try self.decoder.decode(target: ListResponse<LeagueEvent>.self,
-                                                           data: data,
-                                                           userInfo: [.managedObjectContext: self.context,
-                                                                      .sportType: leagueIdentity.sportType],
-                                                           dateFormatter: self.dateFormatter)
-                    completion(.success(response.result ?? []))
-                } catch {
-                    completion(.failure(error))
-                }
-            }
-        }
+        _ = fetchStrategy.fetch(LeagueEvent.self,
+                               url: leagueIdentity.sportType.apiPath,
+                               query: ["met":"Fixtures",
+                                       "leagueId":"\(leagueIdentity.leagueKey)",
+                                       "from": dateFormatter.string(from: from),
+                                       "to": dateFormatter.string(from: to),
+                                       "APIkey": environment.sportsApiKey],
+                               userInfo: [.managedObjectContext: self.context,
+                                          .sportType: leagueIdentity.sportType],
+                               dateFormatter: dateFormatter,
+                               completion: completion)
     }
 }

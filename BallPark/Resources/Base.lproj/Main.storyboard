@@ -247,7 +247,6 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="u4d-gI-WqD" id="UnC-Ra-6mx"/>
-                        <outlet property="collectionViewTopConstraint" destination="kPb-HI-PPa" id="m7W-lS-J09"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TMb-tn-XEX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
