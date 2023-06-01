@@ -11,50 +11,24 @@ import Reachability
 class PlayersModel {
     
     private let remoteService: PlayersRemoteService
-    private let reachability: Reachability?
+    private let fetchCacheStrategy: any AnyDataFetchCacheStrategy
     private let playersDatabase: any AnyPlayerDatabase
     private let teamsDatabase: any AnyTeamDatabase
     
     init(remoteService: PlayersRemoteService,
          playersDatabase: some AnyPlayerDatabase,
          teamsDatabase: some AnyTeamDatabase,
-         reachability: Reachability?) {
+         fetchCacheStrategy: some AnyDataFetchCacheStrategy) {
         self.remoteService = remoteService
         self.teamsDatabase = teamsDatabase
         self.playersDatabase = playersDatabase
-        self.reachability = reachability
+        self.fetchCacheStrategy = fetchCacheStrategy
     }
     
     func load(teamIdentity: TeamIdentity, completion: @escaping (Result<SourcedData<[Player]>, Error>) -> Void) {
-        if let reachability = self.reachability {
-            if reachability.connection == .unavailable {
-                completion(localLoad(teamIdentity).map({ .local($0) }))
-                return
-            }
-        }
-        remoteLoad(teamIdentity, completion: completion)
-    }
-    
-    private func remoteLoad(_ teamIdentity: TeamIdentity, completion: @escaping (Result<SourcedData<[Player]>, Error>) -> Void) {
-        remoteService.fetch(teamIdentity) { result in
-            completion(result.flatMap { remotePlayers in
-                return self.teamsDatabase.addPlayersToTeam(teamIdentity.teamKey, remotePlayers)
-                    .flatMap { _ in
-                        self.localLoad(teamIdentity).map { .remote($0) }
-                    }.flatMapError { error in
-                            .success(.remote(remotePlayers, error))
-                    }
-            }.flatMapError({ error in
-                print(error)
-                return self.localLoad(teamIdentity).flatMap { localTeams in
-                        .success(.local(localTeams, error))
-                }
-            }))
-        }
-    }
-    
-    private func localLoad(_ teamIdentity: TeamIdentity) -> Result<[Player], Error> {
-        return playersDatabase.getAllByTeam(teamIdentity.teamKey)
+        fetchCacheStrategy.fetch(remoteFetch: { self.remoteService.fetch(teamIdentity, completion: $0) },
+                                 localFetch: { $0(self.playersDatabase.getAllByTeam(teamIdentity.teamKey)) },
+                                 localCache: { self.teamsDatabase.addPlayersToTeam(teamIdentity.teamKey, $0) },
+                                 completion: completion)
     }
 }
-

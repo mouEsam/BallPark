@@ -88,6 +88,10 @@
 		D4E0EC172A20D5A000EF0BE7 /* BallPark.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4E0EC152A20D5A000EF0BE7 /* BallPark.xcdatamodeld */; };
 		D4E0EC192A20D5A100EF0BE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E0EC182A20D5A100EF0BE7 /* Assets.xcassets */; };
 		D4E0EC1C2A20D5A100EF0BE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E0EC1A2A20D5A100EF0BE7 /* LaunchScreen.storyboard */; };
+		D4ED13142A2819C100B0107C /* AnyRemoteListFetchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ED13132A2819C100B0107C /* AnyRemoteListFetchStrategy.swift */; };
+		D4ED13192A281BCD00B0107C /* RemoteListFetchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ED13182A281BCD00B0107C /* RemoteListFetchStrategy.swift */; };
+		D4ED131C2A28287300B0107C /* AnyDataFetchCacheStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ED131B2A28287300B0107C /* AnyDataFetchCacheStrategy.swift */; };
+		D4ED131E2A28288900B0107C /* DataFetchCacheStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ED131D2A28288900B0107C /* DataFetchCacheStrategy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -176,6 +180,10 @@
 		D4E0EC182A20D5A100EF0BE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4E0EC1B2A20D5A100EF0BE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4E0EC1D2A20D5A100EF0BE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4ED13132A2819C100B0107C /* AnyRemoteListFetchStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyRemoteListFetchStrategy.swift; sourceTree = "<group>"; };
+		D4ED13182A281BCD00B0107C /* RemoteListFetchStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteListFetchStrategy.swift; sourceTree = "<group>"; };
+		D4ED131B2A28287300B0107C /* AnyDataFetchCacheStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDataFetchCacheStrategy.swift; sourceTree = "<group>"; };
+		D4ED131D2A28288900B0107C /* DataFetchCacheStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchCacheStrategy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +405,7 @@
 		D4E0EC242A20D5E400EF0BE7 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D4ED13162A281A3D00B0107C /* Strategies */,
 				D4894F7C2A216EEE00B206FB /* Helpers */,
 				D4894F412A20E3DD00B206FB /* Services */,
 				D4E0EC2C2A20D68D00EF0BE7 /* Delegates */,
@@ -704,6 +713,33 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		D4ED13162A281A3D00B0107C /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				D4ED131A2A2820F200B0107C /* DataFetch */,
+				D4ED13172A281A4700B0107C /* RemoteFetch */,
+			);
+			path = Strategies;
+			sourceTree = "<group>";
+		};
+		D4ED13172A281A4700B0107C /* RemoteFetch */ = {
+			isa = PBXGroup;
+			children = (
+				D4ED13132A2819C100B0107C /* AnyRemoteListFetchStrategy.swift */,
+				D4ED13182A281BCD00B0107C /* RemoteListFetchStrategy.swift */,
+			);
+			path = RemoteFetch;
+			sourceTree = "<group>";
+		};
+		D4ED131A2A2820F200B0107C /* DataFetch */ = {
+			isa = PBXGroup;
+			children = (
+				D4ED131B2A28287300B0107C /* AnyDataFetchCacheStrategy.swift */,
+				D4ED131D2A28288900B0107C /* DataFetchCacheStrategy.swift */,
+			);
+			path = DataFetch;
+			sourceTree = "<group>";
+		};
 		FCB30460A5EA9E3A66F36813 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -868,6 +904,7 @@
 				D4D2CDE72A22C3CF009EB45B /* LeagueEventsViewModel.swift in Sources */,
 				D4894F552A20FEA900B206FB /* AnyEnvironment.swift in Sources */,
 				D4D2CDE52A22C1A3009EB45B /* LeagueIdentity.swift in Sources */,
+				D4ED131E2A28288900B0107C /* DataFetchCacheStrategy.swift in Sources */,
 				D4D2CDCF2A22362A009EB45B /* AnyInstantiableView.swift in Sources */,
 				D4D2CDED2A22C994009EB45B /* LeagueEventsModel.swift in Sources */,
 				D4894F722A213DA800B206FB /* FavouriteLeaguesViewController.swift in Sources */,
@@ -875,6 +912,7 @@
 				D44953432A244FD400739698 /* Team.swift in Sources */,
 				D4894F572A20FEE900B206FB /* Environment.swift in Sources */,
 				D4894F4B2A20F1E400B206FB /* AnyDecoder.swift in Sources */,
+				D4ED13142A2819C100B0107C /* AnyRemoteListFetchStrategy.swift in Sources */,
 				D4894F5C2A21019300B206FB /* ListResponse.swift in Sources */,
 				D4D2CDCD2A222EA3009EB45B /* SportsViewController.swift in Sources */,
 				D44953392A24332900739698 /* LatestResultsViewController.swift in Sources */,
@@ -901,9 +939,11 @@
 				D4894F782A215DA200B206FB /* FavouriteLeaguesModel.swift in Sources */,
 				D4894F852A21779D00B206FB /* LeagueDatabase.swift in Sources */,
 				D48DE4CF2A253F69003163C7 /* TeamViewModel.swift in Sources */,
+				D4ED131C2A28287300B0107C /* AnyDataFetchCacheStrategy.swift in Sources */,
 				D44953412A244D6900739698 /* Player.swift in Sources */,
 				D44953372A24307500739698 /* NextEventsViewController.swift in Sources */,
 				D44953492A24536C00739698 /* TeamsRemoteService.swift in Sources */,
+				D4ED13192A281BCD00B0107C /* RemoteListFetchStrategy.swift in Sources */,
 				D44953472A2452CF00739698 /* TeamNotifications.swift in Sources */,
 				D47F7B572A26D3CF00BBEF73 /* WithErrorView.swift in Sources */,
 			);

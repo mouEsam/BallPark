@@ -31,10 +31,11 @@ extension WithErrorView {
         wrapper.layoutMargins = .init(top: 20, left: 20, bottom: 20, right: 20)
         
         wrapper.translatesAutoresizingMaskIntoConstraints = false
+        wrapper.preservesSuperviewLayoutMargins = true
         
         NSLayoutConstraint.activate([
-            wrapper.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
-            wrapper.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor),
+            wrapper.heightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.heightAnchor),
+            wrapper.widthAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.widthAnchor),
             wrapper.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             wrapper.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
@@ -56,8 +57,7 @@ extension WithErrorView {
             error.bottomAnchor.constraint(equalTo: wrapper.layoutMarginsGuide.bottomAnchor),
         ])
         
-        view.addSubview(error)
-        self.error = error
+        self.error = wrapper
     }
     
     func hideError() {

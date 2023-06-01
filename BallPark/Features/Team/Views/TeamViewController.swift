@@ -26,9 +26,6 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
     private var players: [Player] = []
     
     private weak var headerView: TeamHeader!
-    private weak var headerTopConstraint: NSLayoutConstraint!
-    private weak var headerBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
     
     func inject(_ container: Container) {
@@ -40,7 +37,7 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
                                             model: PlayersModel(remoteService: container.require(PlayersRemoteService.self),
                                                                 playersDatabase: container.require((any AnyPlayerDatabase).self),
                                                                 teamsDatabase: container.require((any AnyTeamDatabase).self),
-                                                                reachability: container.require(Reachability.self)))
+                                                                fetchCacheStrategy: container.require((any AnyDataFetchCacheStrategy).self)))
     }
     
     override func viewDidLoad() {
@@ -118,21 +115,17 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
                                                    bottom: 10,
                                                    right: 10)
         
-        //        NSLayoutConstraint.deactivate([collectionViewTopConstraint])
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        let headerTopConstraint = headerView.bottomAnchor.constraint(equalTo: collectionView.topAnchor)
-        let headerBottomConstraint = headerView.heightAnchor.constraint(equalToConstant: heigth)
-        
+
         NSLayoutConstraint.activate([
-            headerTopConstraint,
+            headerView.bottomAnchor.constraint(equalTo: collectionView.contentLayoutGuide.topAnchor,
+                                                                         constant: -10),
+            headerView.heightAnchor.constraint(equalToConstant: heigth),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerBottomConstraint,
         ])
         
         self.headerView = headerView
-        self.headerTopConstraint = headerTopConstraint
-        self.headerBottomConstraint = headerBottomConstraint
     }
     
     private func setTeamData(_ data: Team) {
