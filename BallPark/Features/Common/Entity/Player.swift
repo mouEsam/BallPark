@@ -16,7 +16,8 @@ public class Player: NSManagedObject, Decodable {
     }
     
     public required convenience init(from decoder: Decoder) throws {
-        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
+        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext,
+              let sportType = decoder.userInfo[CodingUserInfoKey.sportType] as? SportType else {
             fatalError("Failed to decode Player!")
         }
         
@@ -34,9 +35,9 @@ public class Player: NSManagedObject, Decodable {
         self.goals = try container.decodeIfPresent(String.self, forKey: .goals)
         self.yellowCards = try container.decodeIfPresent(String.self, forKey: .yellowCards)
         self.redCards = try container.decodeIfPresent(String.self, forKey: .redCards)
-        self.image = try container.decodeIfPresent(String.self, forKey: .image)?.nilIfBlank()
-        self.team = team
-        
+        self.image = [try container.decodeIfPresent(String.self, forKey: .image)?.nilIfBlank(),
+                      try container.decodeIfPresent(String.self, forKey: .logo)?.nilIfBlank()].compactMap{$0}.first
+        self.sportTypeRaw = sportType.rawValue
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -51,5 +52,15 @@ public class Player: NSManagedObject, Decodable {
         case yellowCards = "player_yellow_cards"
         case redCards = "player_red_cards"
         case image = "player_image"
+        case logo = "player_logo"
+    }
+}
+
+extension Player {
+    var sportType: SportType? {
+        if let sportTypeRaw = sportTypeRaw {
+            return SportType(rawValue: sportTypeRaw)
+        }
+        return nil
     }
 }

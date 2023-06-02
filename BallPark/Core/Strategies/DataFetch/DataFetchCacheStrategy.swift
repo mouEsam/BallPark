@@ -16,10 +16,11 @@ class DataFetchCacheStrategy: AnyDataFetchCacheStrategy {
         self.reachability = reachability
     }
     
-    func fetch<T: Decodable>(remoteFetch: @escaping (@escaping Completion<T>) -> Void,
-               localFetch: @escaping (@escaping Completion<T>) -> Void,
-               localCache: @escaping (T) -> Result<Void, Error>,
-               completion: @escaping (FetchResult<T>) -> Void) {
+    func fetch<T: Decodable>(_ type: T.Type,
+                             remoteFetch: @escaping (@escaping Completion<T>) -> Void,
+                             localFetch: @escaping (@escaping Completion<T>) -> Void,
+                             localCache: @escaping (T) -> Result<Void, Error>,
+                             completion: @escaping (FetchResult<T>) -> Void) {
         if let reachability = self.reachability {
             if reachability.connection == .unavailable {
                 localFetch { localResult in

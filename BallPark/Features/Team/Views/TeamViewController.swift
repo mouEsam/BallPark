@@ -25,19 +25,15 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
     private var team: Team? = nil
     private var players: [Player] = []
     
+    private var teamErrorKey: ErrorViewKey = 0
+    
     private weak var headerView: TeamHeader!
     @IBOutlet weak var collectionView: UICollectionView!
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        viewModel = TeamViewModel(teamIdentity: args,
-                                  model: TeamModel(database: container.require((any AnyTeamDatabase).self)),
-                                  notificationCenter: container.require(NotificationCenter.self))
-        playersViewModel = PlayersViewModel(teamIdentity: args,
-                                            model: PlayersModel(remoteService: container.require(PlayersRemoteService.self),
-                                                                playersDatabase: container.require((any AnyPlayerDatabase).self),
-                                                                teamsDatabase: container.require((any AnyTeamDatabase).self),
-                                                                fetchCacheStrategy: container.require((any AnyDataFetchCacheStrategy).self)))
+        viewModel = container.require((any AnyTeamViewModelFactory).self).create(for: args)
+        playersViewModel = container.require((any AnyPlayersViewModelFactory).self).create(for: args)
     }
     
     override func viewDidLoad() {
@@ -76,7 +72,9 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
                     case .loaded(data: let data):
                         self.setTeamData(data.data)
                     case .error(error: let error):
-                        self.showError(message: error.localizedDescription)
+                        self.showError(message: error.localizedDescription,
+                                       anchorTo: self.headerView,
+                                       forKey: &self.teamErrorKey)
                     default:
                         break
                 }
@@ -99,7 +97,8 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
                     case .error(error: let error):
                         self.hideLoader()
                         self.hideEmpty()
-                        self.showError(message: error.localizedDescription)
+                        self.showError(message: error.localizedDescription,
+                                       anchorTo: self.collectionView)
                     default:
                         break
                 }
@@ -109,8 +108,9 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
         let headerView = TeamHeader(frame: .zero)
         let heigth = CGFloat(260)
         headerView.alpha = 0.0
+        
         collectionView.addSubview(headerView)
-        collectionView.contentInset = UIEdgeInsets(top: heigth,
+        collectionView.contentInset = UIEdgeInsets(top: heigth + 10,
                                                    left: 10,
                                                    bottom: 10,
                                                    right: 10)
@@ -141,7 +141,7 @@ extension TeamViewController: UICollectionViewDataSource {
     private func setData(_ data: [Player]) {
         players = data
         if players.isEmpty {
-            showEmpty(message: "No players found")
+            showEmpty(message: "No players found", anchorTo: collectionView)
         }
         collectionView.reloadData()
     }

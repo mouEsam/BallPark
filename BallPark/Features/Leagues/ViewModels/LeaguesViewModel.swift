@@ -8,10 +8,25 @@
 import Foundation
 import Combine
 
-protocol AnyLeaguesViewModel {
-    var uiStatePublisher: Published<UIState<[League]>>.Publisher { get }
+import Swinject
+
+protocol AnyLeaguesViewModelFactory {
+    func create(for sportType: SportType) -> LeaguesViewModel
+}
+
+struct LeaguesViewModelFactory: AnyLeaguesViewModelFactory {
+    private let container: any Resolver
     
-    func loadLeagues()
+    init(resolver: any Resolver) {
+        self.container = resolver
+    }
+    
+    func create(for sportType: SportType) -> LeaguesViewModel {
+        let model = LeaguesModel(remoteService: container.require((any AnyLeaguesRemoteService).self),
+                                 database: container.require((any AnyLeagueDatabase).self),
+                                 fetchCacheStrategy: container.require((any AnyDataFetchCacheStrategy).self))
+        return LeaguesViewModel(sportType: sportType, model: model)
+    }
 }
 
 class LeaguesViewModel: AnyLeaguesViewModel {
@@ -30,8 +45,8 @@ class LeaguesViewModel: AnyLeaguesViewModel {
     }
     
     func loadLeagues() {
-        uiState = .loading
         queue.async {
+            self.uiState = .loading
             self.model.load(sportType: self.sportType) { result in
                 self.uiState = result.toUiState()
             }

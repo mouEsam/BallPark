@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FavouriteLeague" representedClassName="FavouriteLeague" syncable="YES" codeGenerationType="class">
         <attribute name="isFavourite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <relationship name="league" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="League" inverseName="favourite" inverseEntity="League"/>
@@ -23,6 +23,7 @@
         <attribute name="sportTypeRaw" attributeType="String" customClassName="[]"/>
         <attribute name="year" optional="YES" attributeType="String"/>
         <relationship name="favourite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavouriteLeague" inverseName="league" inverseEntity="FavouriteLeague"/>
+        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="league" inverseEntity="Player"/>
         <relationship name="teams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Team" inverseName="league" inverseEntity="Team"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -40,8 +41,10 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="number" optional="YES" attributeType="String"/>
         <attribute name="redCards" optional="YES" attributeType="String"/>
+        <attribute name="sportTypeRaw" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="yellowCards" optional="YES" attributeType="String"/>
+        <relationship name="league" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="League" inverseName="players" inverseEntity="League"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="players" inverseEntity="Team"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

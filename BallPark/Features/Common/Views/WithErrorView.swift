@@ -8,18 +8,31 @@
 import Foundation
 import UIKit
 
-private var errorKey: UInt8 = 0
+typealias ErrorViewKey = UInt8
+
+private var errorKey: ErrorViewKey = 0
 
 protocol WithErrorView: UIViewController {}
 
 extension WithErrorView {
-    var error: UIView? {
-        get { objc_getAssociatedObject(self, &errorKey) as? UIView }
-        set { objc_setAssociatedObject(self, &errorKey, newValue, .OBJC_ASSOCIATION_ASSIGN) }
+    private func getErrorView(_ key: UnsafeRawPointer?) -> UIView? {
+        if let key = key {
+            return objc_getAssociatedObject(self, key) as? UIView
+        } else {
+            return objc_getAssociatedObject(self, &errorKey) as? UIView
+        }
     }
     
-    func showError(message: String, anchorTo anchor: UIView? = nil) {
-        guard error == nil else { return }
+    private func setErrorView(_ key: UnsafeRawPointer?, _ view: UIView?) {
+        if let key = key {
+            objc_setAssociatedObject(self, key, view, .OBJC_ASSOCIATION_ASSIGN)
+        } else {
+            objc_setAssociatedObject(self, &errorKey, view, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
+    func showError(message: String, anchorTo anchor: UIView? = nil, forKey key: UnsafePointer<ErrorViewKey>? = nil) {
+        guard getErrorView(key) == nil else { return }
         let view = anchor ?? self.view!
         
         let wrapper = UIView()
@@ -57,12 +70,12 @@ extension WithErrorView {
             error.bottomAnchor.constraint(equalTo: wrapper.layoutMarginsGuide.bottomAnchor),
         ])
         
-        self.error = wrapper
+        setErrorView(key, wrapper)
     }
     
-    func hideError() {
-        guard let error = error else { return }
-        self.error = nil
+    func hideError(forKey key: UnsafePointer<ErrorViewKey>? = nil) {
+        guard let error = getErrorView(key) else { return }
+        setErrorView(key, nil)
         error.removeFromSuperview()
     }
 }

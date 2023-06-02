@@ -210,7 +210,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ytk-51-Ecq">
                                                     <rect key="frame" x="8" y="8" width="112" height="112"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6yD-py-TEd" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6yD-py-TEd" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
                                                             <rect key="frame" x="9" y="0.0" width="94" height="94"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="6yD-py-TEd" secondAttribute="height" id="wVg-3M-abM"/>
@@ -459,7 +459,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7Rd-wO-b0h">
                                                             <rect key="frame" x="8" y="8" width="94" height="120"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cM8-Gd-PYO" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cM8-Gd-PYO" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="94" height="94"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="cM8-Gd-PYO" secondAttribute="height" id="ZBa-dv-KD7"/>
@@ -499,6 +499,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="Ejq-Ab-euT" id="qIp-7o-3M7"/>
+                        <outlet property="sectionTitle" destination="lZX-KK-MTT" id="wUn-cD-SLI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F2Z-Q2-Duk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -552,13 +553,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="393" height="131"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="si8-qi-E45" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="si8-qi-E45" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
                                                             <rect key="frame" x="18" y="18" width="95" height="95"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="si8-qi-E45" secondAttribute="height" id="nNM-v0-zEx"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="34G-oX-H80" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="34G-oX-H80" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
                                                             <rect key="frame" x="280" y="18" width="95" height="95"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="34G-oX-H80" secondAttribute="height" id="bFG-4h-7pB"/>

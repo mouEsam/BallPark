@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             container.register(Reachability.self) { resolver in reachability }
         }
         container.register(Calendar.self) { resolver in Calendar.current }
+        container.register(TimeZone.self) { resolver in TimeZone.current }
         container.register((any AnyImageLoader).self) { resolver in KFImageLoader() }
         container.register((any RemoteClient).self) { resolver in
             AFRemoteClient(baseUrl: URL(string: "https://apiv2.allsportsapi.com/")!)
@@ -91,26 +92,78 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             resolver.require(PlayerDatabase.self)
         }
         
-        container.register(LeaguesRemoteService.self) { [weak self] resolver in
+        container.register((any AnyLeaguesRemoteService).self) { [weak self] resolver in
             return LeaguesRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                         context: resolver.require(NSManagedObjectContext.self),
                                         environment: resolver.require(AnyEnvironmentProvider.self))
         }
-        container.register(LeagueEventsRemoteService.self) { [weak self] resolver in
+        container.register((any AnyLeagueEventsRemoteService).self) { [weak self] resolver in
             return LeagueEventsRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                              context: resolver.require(NSManagedObjectContext.self),
                                              environment: resolver.require(AnyEnvironmentProvider.self))
         }
-        container.register(TeamsRemoteService.self) { [weak self] resolver in
+        container.register((any AnyLivescoresRemoteService).self) { [weak self] resolver in
+            return LivescoresRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
+                                             context: resolver.require(NSManagedObjectContext.self),
+                                             environment: resolver.require(AnyEnvironmentProvider.self),
+                                           timezone: resolver.require(TimeZone.self))
+        }
+        container.register((any AnyTeamsRemoteService).self) { [weak self] resolver in
             return TeamsRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                       context: resolver.require(NSManagedObjectContext.self),
                                       environment: resolver.require(AnyEnvironmentProvider.self))
         }
-        container.register(PlayersRemoteService.self) { [weak self] resolver in
+        container.register((any AnyLeaguePlayersRemoteService).self) { [weak self] resolver in
+            return LeaguePlayersRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
+                                        context: resolver.require(NSManagedObjectContext.self),
+                                        environment: resolver.require(AnyEnvironmentProvider.self))
+        }
+        container.register((any AnyPlayersRemoteService).self) { [weak self] resolver in
             return PlayersRemoteService(fetchStrategy: resolver.require((any AnyRemoteListFetchStrategy).self),
                                         context: resolver.require(NSManagedObjectContext.self),
                                         environment: resolver.require(AnyEnvironmentProvider.self))
         }
+        
+        container.register((any AnyLeaguePlayersModelFactory).self) { resolver in
+            return LeaguePlayersModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyTeamViewModelFactory).self) { resolver in
+            return TeamViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyPlayersViewModelFactory).self) { resolver in
+            return PlayersViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyLeagueViewModelFactory).self) { resolver in
+            return LeagueViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyLeagueEventsModelFactory).self) { resolver in
+            return LeagueEventsModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyLeagueEventsViewModelFactory).self) { resolver in
+            return LeagueEventsViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyTeamsViewModelFactory).self) { resolver in
+            return TeamsViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyLeaguesViewModelFactory).self) { resolver in
+            return LeaguesViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyFavouriteLeaguesViewModelFactory).self) { resolver in
+            return FavouriteLeaguesViewModelFactory(resolver: resolver)
+        }
+        
+        container.register((any AnyFavouriteTeamsViewModelFactory).self) { resolver in
+            return FavouriteTeamsViewModelFactory(resolver: resolver)
+        }
+
         return container
     }()
     

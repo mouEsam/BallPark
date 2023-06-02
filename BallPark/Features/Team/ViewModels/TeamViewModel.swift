@@ -7,6 +7,25 @@
 
 import Foundation
 import Combine
+import Swinject
+
+protocol AnyTeamViewModelFactory {
+    func create(for teamIdentity: TeamIdentity) -> TeamViewModel
+}
+
+struct TeamViewModelFactory: AnyTeamViewModelFactory {
+    private let container: any Resolver
+    
+    init(resolver: any Resolver) {
+        self.container = resolver
+    }
+    
+    func create(for teamIdentity: TeamIdentity) -> TeamViewModel {
+        return TeamViewModel(teamIdentity: teamIdentity,
+                                  model: TeamModel(database: container.require((any AnyTeamDatabase).self)),
+                                  notificationCenter: container.require(NotificationCenter.self))
+    }
+}
 
 class TeamViewModel {
     
@@ -30,6 +49,7 @@ class TeamViewModel {
     
     func loadTeam() {
         queue.async {
+            self.uiState = .loading
             self.model.load(teamIdentity: self.teamIdentity) { result in
                 self.uiState = result.toUiState()
                 self.updateFavouriteState()

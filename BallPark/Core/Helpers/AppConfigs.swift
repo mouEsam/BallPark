@@ -10,5 +10,5 @@ import Foundation
 struct AppConfigs {
     private init() {}
     
-    static let maxApiIntervalDays = 15
+    static let maxApiIntervalDays = 365
 }

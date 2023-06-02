@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LeagueIdentity {
+struct LeagueIdentity: Equatable {
     let leagueKey: Int64
     let sportType: SportType
 }

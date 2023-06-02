@@ -39,9 +39,7 @@ class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, Wi
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        let model = FavouriteTeamsModel(database: container.require((any FavouritesDatabase<Team>).self))
-        viewModel = FavouriteTeamsViewModel(model: model,
-                                            notificationCenter: container.require(NotificationCenter.self))
+        viewModel = container.require((any AnyFavouriteTeamsViewModelFactory).self).create()
     }
     
     func handleUIState(_ state: UIState<[Team]>) {

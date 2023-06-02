@@ -31,12 +31,14 @@ struct RemoteListFetchStrategy: AnyRemoteListFetchStrategy {
                 completion(.failure(error))
             } else if case let .success(data) = result, let data = data {
                 do {
+                    print(String(data: data, encoding: .utf8))
                     let response = try self.decoder.decode(target: ListResponse<T>.self,
                                                            data: data,
                                                            userInfo: userInfo,
                                                            dateFormatter: dateFormatter)
                     completion(.success(response.result ?? []))
                 } catch {
+                    print(error)
                     completion(.failure(error))
                 }
             }

@@ -8,18 +8,31 @@
 import Foundation
 import UIKit
 
-private var emptyKey: UInt8 = 0
+typealias EmptyViewKey = UInt8
+
+private var emptyKey: EmptyViewKey = 0
 
 protocol WithEmptyView: UIViewController {}
 
 extension WithEmptyView {
-    var empty: UIView? {
-        get { objc_getAssociatedObject(self, &emptyKey) as? UIView }
-        set { objc_setAssociatedObject(self, &emptyKey, newValue, .OBJC_ASSOCIATION_ASSIGN) }
+    private func getEmptyView(_ key: UnsafeRawPointer?) -> UIView? {
+        if let key = key {
+            return objc_getAssociatedObject(self, key) as? UIView
+        } else {
+            return objc_getAssociatedObject(self, &emptyKey) as? UIView
+        }
     }
     
-    func showEmpty(message: String, anchorTo anchor: UIView? = nil) {
-        guard empty == nil else { return }
+    private func setEmptyView(_ key: UnsafeRawPointer?, _ view: UIView?) {
+        if let key = key {
+            objc_setAssociatedObject(self, key, view, .OBJC_ASSOCIATION_ASSIGN)
+        } else {
+            objc_setAssociatedObject(self, &emptyKey, view, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+    
+    func showEmpty(message: String, anchorTo anchor: UIView? = nil, forKey key: UnsafePointer<EmptyViewKey>? = nil) {
+        guard getEmptyView(key) == nil else { return }
         let view = anchor ?? self.view!
         
         let wrapper = UIView()
@@ -56,12 +69,12 @@ extension WithEmptyView {
             empty.bottomAnchor.constraint(equalTo: wrapper.layoutMarginsGuide.bottomAnchor),
         ])
         
-        self.empty = wrapper
+        setEmptyView(key, wrapper)
     }
     
-    func hideEmpty() {
-        guard let empty = empty else { return }
-        self.empty = nil
+    func hideEmpty(forKey key: UnsafePointer<EmptyViewKey>? = nil) {
+        guard let empty = getEmptyView(key) else { return }
+        setEmptyView(key, nil)
         empty.removeFromSuperview()
     }
 }

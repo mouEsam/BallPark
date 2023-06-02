@@ -10,7 +10,12 @@ import CoreData
 
 // https://apiv2.allsportsapi.com/football/?&met=Players&teamId=640&APIkey=161cc5f55f286fc875232e256163ad6dfc437500b39b885b4a745fdd79326354
 
-class PlayersRemoteService {
+protocol AnyPlayersRemoteService {
+    func fetch(_ teamIdentity: TeamIdentity,
+               completion: @escaping (Result<[Player], Error>) -> Void)
+}
+
+class PlayersRemoteService: AnyPlayersRemoteService {
     
     private let environment: any AnyEnvironmentProvider
     private let fetchStrategy: any AnyRemoteListFetchStrategy
@@ -32,6 +37,7 @@ class PlayersRemoteService {
                                         "teamId":"\(teamIdentity.teamKey)",
                                         "APIkey": environment.sportsApiKey],
                                 userInfo: [.managedObjectContext: self.context,
+                                           .sportType: teamIdentity.sportType,
                                            .leagueKey: teamIdentity.teamKey],
                                 completion: completion)
     }

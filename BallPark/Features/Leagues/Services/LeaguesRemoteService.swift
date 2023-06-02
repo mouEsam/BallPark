@@ -10,7 +10,11 @@ import CoreData
 
 //  https://apiv2.allsportsapi.com/football/?&met=Leagues&APIkey=161cc5f55f286fc875232e256163ad6dfc437500b39b885b4a745fdd79326354
 
-class LeaguesRemoteService {
+protocol AnyLeaguesRemoteService {
+    func fetch(_ sportType: SportType, completion: @escaping (Result<[League], Error>) -> Void)
+}
+
+class LeaguesRemoteService: AnyLeaguesRemoteService {
     
     private let environment: any AnyEnvironmentProvider
     private let fetchStrategy: any AnyRemoteListFetchStrategy
