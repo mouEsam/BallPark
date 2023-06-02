@@ -12,6 +12,7 @@ protocol AnyDataFetchCacheStrategy {
     typealias Completion<T> = (Result<T, Error>) -> Void
     
     func fetch<T: Decodable>(
+        _ type: T.Type,
         remoteFetch: @escaping (@escaping Completion<T>) -> Void,
         localFetch: @escaping (@escaping Completion<T>) -> Void,
         localCache: @escaping (T) -> Result<Void, Error>,

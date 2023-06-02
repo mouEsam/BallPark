@@ -17,7 +17,7 @@ class LatestResultsViewController: UIViewController, WithArgs, AnyStoryboardView
     private var viewModel: LeagueEventsViewModel!
     private var cancellables: Set<AnyCancellable> = []
     
-    private var events: [LeagueEvent] = []
+    private var events: [any AnyLeagueEvent] = []
     
     private let dateFormatter = DateFormatter()
     private let timeFormatter = DateFormatter()
@@ -26,10 +26,7 @@ class LatestResultsViewController: UIViewController, WithArgs, AnyStoryboardView
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        let model = LatestEventsModel(calendar: container.require(Calendar.self),
-                                    remoteService: container.require(LeagueEventsRemoteService.self))
-        viewModel = LeagueEventsViewModel(leagueIdentity: args,
-                                          model: model)
+        viewModel = container.require((any AnyLeagueEventsViewModelFactory).self).create(for: args, withRange: .live)
     }
     
     override func viewDidLoad() {
@@ -76,7 +73,7 @@ class LatestResultsViewController: UIViewController, WithArgs, AnyStoryboardView
 }
 
 extension LatestResultsViewController: UICollectionViewDataSource {
-    private func setData(_ data: [LeagueEvent]) {
+    private func setData(_ data: [any AnyLeagueEvent]) {
         events = data
         collectionView.reloadData()
         if data.isEmpty {
@@ -100,8 +97,8 @@ extension LatestResultsViewController: UICollectionViewDataSource {
         cell.layer.masksToBounds = true
         cell.backgroundColor = .blue
         
-        let homeTeam = event.homeTeam
-        let awayTeam = event.awayTeam
+        let firstSide = event.firstSide
+        let secondSide = event.secondSide
         
         let nameLbl = cell.viewWithTag(1) as! UILabel
         let dateLbl = cell.viewWithTag(2) as! UILabel
@@ -109,12 +106,12 @@ extension LatestResultsViewController: UICollectionViewDataSource {
         let homeTeamImg = cell.viewWithTag(4) as! UIImageView
         let awayTeamImg = cell.viewWithTag(5) as! UIImageView
         
-        nameLbl.text = "\(event.homeTeam.name) vs. \(event.awayTeam.name)"
+        nameLbl.text = "\(event.firstSide.name) vs. \(event.secondSide.name)"
         dateLbl.text = dateFormatter.string(from: event.eventDetails.eventDate)
         timeLbl.text = timeFormatter.string(from: event.eventDetails.eventTime)
         
-        imageLoader.load(imageUrl: homeTeam.logo, into: homeTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
-        imageLoader.load(imageUrl: awayTeam.logo, into: awayTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
+        imageLoader.load(imageUrl: firstSide.logo, into: homeTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
+        imageLoader.load(imageUrl: secondSide.logo, into: awayTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
         
         return cell
     }

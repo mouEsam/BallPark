@@ -22,7 +22,7 @@
                 <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZV2-WF-UTc">
                     <rect key="frame" x="0.0" y="0.0" width="323" height="262"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Wk-B2-qWG" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Wk-B2-qWG" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
                             <rect key="frame" x="61.666666666666657" y="0.0" width="199.99999999999997" height="200"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="200" id="1dz-BF-gHr"/>

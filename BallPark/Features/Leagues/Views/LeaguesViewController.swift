@@ -43,10 +43,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
         if let viewModel = container.resolve(AnyLeaguesViewModel.self) {
             self.viewModel = viewModel
         } else {
-            let model = LeaguesModel(remoteService: container.require(LeaguesRemoteService.self),
-                                     database: container.require((any AnyLeagueDatabase).self),
-                                     fetchCacheStrategy: container.require((any AnyDataFetchCacheStrategy).self))
-            viewModel = LeaguesViewModel(sportType: args, model: model)
+            viewModel = container.require((any AnyLeaguesViewModelFactory).self).create(for: args)
         }
     }
     

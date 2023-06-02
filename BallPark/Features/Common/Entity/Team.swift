@@ -36,6 +36,7 @@ public class Team: NSManagedObject, Decodable {
         case players = "players"
     }
 }
+
 extension Team {
     var isFavourite: Bool {
         favourite?.isFavourite ?? false

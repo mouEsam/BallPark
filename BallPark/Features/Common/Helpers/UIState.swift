@@ -19,6 +19,7 @@ protocol WithError {
 enum SourceType {
     case local
     case remote
+    case misc
 }
 
 protocol AnySourcedData<T>: WithData, WithError {
@@ -43,9 +44,25 @@ extension AnySourcedData {
     static func remote(_ data: T, _ error: Error? = nil) -> SourcedData<T> {
         return SourcedData<T>(data: data, error: error, source: .remote)
     }
+    
+    static func misc(_ data: T, _ error: Error? = nil) -> SourcedData<T> {
+        return SourcedData<T>(data: data, error: error, source: .misc)
+    }
 }
 
-enum UIState<T> {
+protocol AnyUIState {
+    associatedtype T
+    
+    var sourcedData: (any AnySourcedData<T>)? { get }
+    var data: T? { get }
+    var error: (any Error)? { get }
+    
+    var isInitial: Bool { get }
+    var isLoading: Bool { get }
+    var isError: (any Error)? { get }
+}
+
+enum UIState<T>: AnyUIState {
     case initial
     case loading
     case loaded(data: any AnySourcedData<T>)
@@ -63,6 +80,63 @@ enum UIState<T> {
             return error
         }
         return nil
+    }
+}
+
+extension UIState {
+    
+    var sourcedData: (any AnySourcedData<T>)? {
+        if case let .loaded(data) = self {
+            return data
+        }
+        return nil
+    }
+    
+    var isInitial: Bool {
+        if case .initial = self {
+            return true
+        }
+        return false
+    }
+    
+    var isLoading: Bool {
+        if case .loading = self {
+            return true
+        }
+        return false
+    }
+    
+    var isError: (any Error)? {
+        if case let .error(error: error) = self {
+            return error
+        }
+        return nil
+    }
+}
+
+extension Array where Element: AnyUIState {
+    func combine<S>(with combineData: ([Element.T]) -> S) -> UIState<S> {
+        if let _ = first(where: { $0.isInitial }) {
+            return .initial
+        } else if let _ = first(where: { $0.isLoading }) {
+            return .loading
+        } else if let error = compactMap({ $0.isError }).first {
+            return .error(error: error)
+        } else {
+            return .loaded(data: SourcedData.misc(combineData(compactMap { $0.data })))
+        }
+    }
+    
+    func combineSources<S>(with combineData: ([any AnySourcedData<Element.T>]) -> any AnySourcedData<S>) -> UIState<S> {
+        if let _ = first(where: { $0.isInitial }) {
+            return .initial
+        } else if let _ = first(where: { $0.isLoading }) {
+            return .loading
+        } else if let error = compactMap({ $0.isError }).first {
+            return .error(error: error)
+        } else {
+            return .loaded(data: combineData(compactMap { $0.sourcedData }))
+        }
     }
 }
 

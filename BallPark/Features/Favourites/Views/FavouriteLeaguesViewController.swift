@@ -15,8 +15,7 @@ class FavouriteLeaguesViewController: LeaguesViewController {
     override func inject(_ container: Container) {
         let wrappedContainer = Container(parent: container)
         wrappedContainer.register(AnyLeaguesViewModel.self) { resolver in
-            FavouriteLeaguesViewModel(model: FavouriteLeaguesModel(database: resolver.require((any FavouritesDatabase<League>).self)),
-                                      notificationCenter: resolver.require(NotificationCenter.self))
+            resolver.require((any AnyFavouriteLeaguesViewModelFactory).self).create()
         }
         super.inject(wrappedContainer)
     }

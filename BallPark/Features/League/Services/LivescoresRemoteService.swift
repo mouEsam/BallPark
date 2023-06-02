@@ -1,51 +1,47 @@
 //
-//  RemoteLeagueService.swift
+//  LivescoresRemoteService.swift
 //  BallPark
 //
-//  Created by Mostafa Ibrahim on 28/05/2023.
+//  Created by Mostafa Ibrahim on 02/06/2023.
 //
-
-//  https://apiv2.allsportsapi.com/football/?&met=Fixtures&leagueId=207&from=2021-05-18&to=2021-05-18&APIkey=161cc5f55f286fc875232e256163ad6dfc437500b39b885b4a745fdd79326354
 
 import Foundation
 import CoreData
 
-protocol AnyLeagueEventsRemoteService {
-   func fetch<LeagueEvent: AnyLeagueEvent>(_ leagueIdentity: LeagueIdentity,
-               from: Date,
-               to: Date,
+protocol AnyLivescoresRemoteService {
+    func fetch<LeagueEvent: AnyLeagueEvent>(_ leagueIdentity: LeagueIdentity,
                completion: @escaping (Result<[LeagueEvent], Error>) -> Void)
 }
 
-class LeagueEventsRemoteService: AnyLeagueEventsRemoteService {
+class LivescoresRemoteService: AnyLivescoresRemoteService {
     
     private let fetchStrategy: any AnyRemoteListFetchStrategy
     private let environment: any AnyEnvironmentProvider
     private let context: NSManagedObjectContext
+    private let timezone: TimeZone
     private let dateFormatter = DateFormatter()
     
     
     init(fetchStrategy: some AnyRemoteListFetchStrategy,
          context: NSManagedObjectContext,
-         environment: some AnyEnvironmentProvider) {
+         environment: some AnyEnvironmentProvider,
+         timezone: TimeZone) {
         self.fetchStrategy = fetchStrategy
         self.context = context
         self.environment = environment
+        self.timezone = timezone
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = Locale(identifier: "en_US")
     }
     
     func fetch<LeagueEvent: AnyLeagueEvent>(_ leagueIdentity: LeagueIdentity,
-               from: Date,
-               to: Date,
                completion: @escaping (Result<[LeagueEvent], Error>) -> Void) {
         _ = fetchStrategy.fetch(LeagueEvent.self,
                                url: leagueIdentity.sportType.apiPath,
-                               query: ["met":"Fixtures",
+                               query: ["met":"Livescore",
                                        "leagueId":"\(leagueIdentity.leagueKey)",
-                                       "from": dateFormatter.string(from: from),
-                                       "to": dateFormatter.string(from: to),
+                                       "timezone": timezone.identifier,
                                        "APIkey": environment.sportsApiKey],
                                userInfo: [.managedObjectContext: self.context,
                                           .sportType: leagueIdentity.sportType],

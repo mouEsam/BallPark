@@ -7,6 +7,25 @@
 
 import Foundation
 import Combine
+import Swinject
+
+protocol AnyFavouriteTeamsViewModelFactory {
+    func create() -> FavouriteTeamsViewModel
+}
+
+struct FavouriteTeamsViewModelFactory: AnyFavouriteTeamsViewModelFactory {
+    private let container: any Resolver
+    
+    init(resolver: any Resolver) {
+        self.container = resolver
+    }
+    
+    func create() -> FavouriteTeamsViewModel {
+        let model = FavouriteTeamsModel(database: container.require((any FavouritesDatabase<Team>).self))
+        return FavouriteTeamsViewModel(model: model,
+                                       notificationCenter: container.require(NotificationCenter.self))
+    }
+}
 
 class FavouriteTeamsViewModel {
     
@@ -25,8 +44,8 @@ class FavouriteTeamsViewModel {
     }
     
     func loadTeams() {
-        uiState = .loading
         queue.async {
+            self.uiState = .loading
             self.loadTeamsImpl()
         }
     }

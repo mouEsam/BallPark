@@ -10,12 +10,12 @@ import Reachability
 
 class PlayersModel {
     
-    private let remoteService: PlayersRemoteService
+    private let remoteService: any AnyPlayersRemoteService
     private let fetchCacheStrategy: any AnyDataFetchCacheStrategy
     private let playersDatabase: any AnyPlayerDatabase
     private let teamsDatabase: any AnyTeamDatabase
     
-    init(remoteService: PlayersRemoteService,
+    init(remoteService: some AnyPlayersRemoteService,
          playersDatabase: some AnyPlayerDatabase,
          teamsDatabase: some AnyTeamDatabase,
          fetchCacheStrategy: some AnyDataFetchCacheStrategy) {
@@ -26,7 +26,8 @@ class PlayersModel {
     }
     
     func load(teamIdentity: TeamIdentity, completion: @escaping (Result<SourcedData<[Player]>, Error>) -> Void) {
-        fetchCacheStrategy.fetch(remoteFetch: { self.remoteService.fetch(teamIdentity, completion: $0) },
+        fetchCacheStrategy.fetch([Player].self,
+                                 remoteFetch: { self.remoteService.fetch(teamIdentity, completion: $0) },
                                  localFetch: { $0(self.playersDatabase.getAllByTeam(teamIdentity.teamKey)) },
                                  localCache: { self.teamsDatabase.addPlayersToTeam(teamIdentity.teamKey, $0) },
                                  completion: completion)

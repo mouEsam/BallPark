@@ -1,21 +1,19 @@
 //
-//  TeamsRemoteService.swift
+//  PlayersRemoteService.swift
 //  BallPark
 //
-//  Created by Mostafa Ibrahim on 29/05/2023.
+//  Created by Mostafa Ibrahim on 02/06/2023.
 //
 
 import Foundation
 import CoreData
 
-//  https://apiv2.allsportsapi.com/football/?&met=Teams&leagueId=207&APIkey=161cc5f55f286fc875232e256163ad6dfc437500b39b885b4a745fdd79326354
-
-protocol AnyTeamsRemoteService {
+protocol AnyLeaguePlayersRemoteService  {
     func fetch(_ leagueIdentity: LeagueIdentity,
-               completion: @escaping (Result<[Team], Error>) -> Void)
+               completion: @escaping (Result<[Player], Error>) -> Void)
 }
 
-class TeamsRemoteService: AnyTeamsRemoteService {
+class LeaguePlayersRemoteService: AnyLeaguePlayersRemoteService  {
     
     private let environment: any AnyEnvironmentProvider
     private let fetchStrategy: any AnyRemoteListFetchStrategy
@@ -30,13 +28,14 @@ class TeamsRemoteService: AnyTeamsRemoteService {
     }
     
     func fetch(_ leagueIdentity: LeagueIdentity,
-               completion: @escaping (Result<[Team], Error>) -> Void) {
-        _ = fetchStrategy.fetch(Team.self,
+               completion: @escaping (Result<[Player], Error>) -> Void) {
+        _ = fetchStrategy.fetch(Player.self,
                                 url: leagueIdentity.sportType.apiPath,
-                                query: ["met":"Teams",
+                                query: ["met":"Players",
                                         "leagueId":"\(leagueIdentity.leagueKey)",
                                         "APIkey": environment.sportsApiKey],
                                 userInfo: [.managedObjectContext: self.context,
+                                           .sportType: leagueIdentity.sportType,
                                            .leagueKey: leagueIdentity.leagueKey],
                                 completion: completion)
     }

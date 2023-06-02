@@ -23,9 +23,7 @@ class LeagueViewController: UIViewController, AnyInstantiableView, WithLoaderVie
     private weak var teamsVC: TeamsViewController!
     
     func inject(_ container: Container) {
-        viewModel = LeagueViewModel(leagueIdentity: args,
-                                    model: LeagueModel(database: container.require((any AnyLeagueDatabase).self)),
-                                    notificationCenter: container.require(NotificationCenter.self))
+        viewModel = container.require((any AnyLeagueViewModelFactory).self).create(for: args)
     }
     
     override func viewDidLoad() {

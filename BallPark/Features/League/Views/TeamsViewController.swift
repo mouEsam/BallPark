@@ -15,31 +15,29 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
     typealias Args = LeagueIdentity
     
     private var imageLoader: (any AnyImageLoader)!
-    private var viewModel: TeamsViewModel!
+    private var viewModel: (any AnyPlayersViewModel)!
     private var cancellables: Set<AnyCancellable> = []
     
-    private var teams: [Team] = []
+    private var teams: [any AnyPlayer] = []
     
+    @IBOutlet weak var sectionTitle: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        let model = TeamsModel(remoteService: container.require(TeamsRemoteService.self),
-                               teamsDatabase: container.require((any AnyTeamDatabase).self),
-                               leagueDatabase: container.require((any AnyLeagueDatabase).self),
-                               fetchCacheStrategy: container.require((AnyDataFetchCacheStrategy).self))
-        viewModel = TeamsViewModel(leagueIdentity: args,
-                                   model: model)
+        viewModel = container.require((any AnyTeamsViewModelFactory).self).create(for: args)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        viewModel.loadLeagues()
+        viewModel.loadPlayers()
     }
     
     private func setupUI() {
+        sectionTitle.text = viewModel.sectionTitleKey
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -47,7 +45,7 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
         collectionView.contentInset.right = 10
         collectionView.contentInset.bottom = 10
         
-        viewModel.$uiState
+        viewModel.uiStatePublisher
             .receive(on: DispatchQueue.main)
             .sink { state in
                 switch state {
@@ -76,11 +74,11 @@ class TeamsViewController: UIViewController, WithArgs, AnyStoryboardView, WithLo
 }
 
 extension TeamsViewController: UICollectionViewDataSource {
-    private func setData(_ data: [Team]) {
+    private func setData(_ data: [any AnyPlayer]) {
         teams = data
         collectionView.reloadData()
         if data.isEmpty {
-            showEmpty(message: "No teams found")
+            showEmpty(message: viewModel.emptyMessageKey)
         }
     }
     
@@ -114,8 +112,9 @@ extension TeamsViewController: UICollectionViewDataSource {
 extension TeamsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let team = teams[indexPath.row]
-        if let teamIdentity = team.identity {
+        let item = teams[indexPath.row]
+        if let team = item as? Team,
+           let teamIdentity = team.identity {
             let vc = instantiate(TeamViewController.self, args: teamIdentity)
             navigationController?.pushViewController(vc, animated: true)
         }

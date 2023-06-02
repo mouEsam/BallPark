@@ -1,7 +1,6 @@
 platform :ios, '15.0'
 
 target 'BallPark' do
-  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   pod 'ReachabilitySwift', '~> 5.0'
@@ -23,9 +22,8 @@ post_install do |installer|
       new_target = project_deployment_target
       next if old_target == new_target || old_target == nil || new_target == nil
       puts "    #{config.name}: #{old_target.yellow} -> #{new_target.green}"
+      #config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = new_target
-#      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11'
-#      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
     end
   end
 end

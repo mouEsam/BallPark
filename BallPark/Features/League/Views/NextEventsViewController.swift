@@ -18,7 +18,7 @@ class NextEventsViewController: UIViewController, AnyStoryboardView, WithArgs, W
     private var viewModel: LeagueEventsViewModel!
     private var cancellables: Set<AnyCancellable> = []
     
-    private var events: [LeagueEvent] = []
+    private var events: [any AnyLeagueEvent] = []
     
     private let dateFormatter = DateFormatter()
     private let timeFormatter = DateFormatter()
@@ -27,10 +27,7 @@ class NextEventsViewController: UIViewController, AnyStoryboardView, WithArgs, W
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        let model = NextEventsModel(calendar: container.require(Calendar.self),
-                                    remoteService: container.require(LeagueEventsRemoteService.self))
-        viewModel = LeagueEventsViewModel(leagueIdentity: args,
-                                          model: model)
+        viewModel = container.require((any AnyLeagueEventsViewModelFactory).self).create(for: args, withRange: .next)
     }
     
     override func viewDidLoad() {
@@ -77,7 +74,7 @@ class NextEventsViewController: UIViewController, AnyStoryboardView, WithArgs, W
 }
 
 extension NextEventsViewController: UICollectionViewDataSource {
-    private func setData(_ data: [LeagueEvent]) {
+    private func setData(_ data: [any AnyLeagueEvent]) {
         events = data
         collectionView.reloadData()
         if data.isEmpty {
@@ -101,14 +98,14 @@ extension NextEventsViewController: UICollectionViewDataSource {
         cell.layer.masksToBounds = true
         cell.backgroundColor = .blue
         
-        let homeTeam = event.homeTeam
-        let awayTeam = event.awayTeam
+        let firstSide = event.firstSide
+        let secondSide = event.secondSide
         
         let nameLbl = cell.viewWithTag(1) as! UILabel
         let dateLbl = cell.viewWithTag(2) as! UILabel
         let timeLbl = cell.viewWithTag(3) as! UILabel
         
-        nameLbl.text = "\(homeTeam.name) vs. \(awayTeam.name)"
+        nameLbl.text = "\(firstSide.name) vs. \(secondSide.name)"
         dateLbl.text = dateFormatter.string(from: event.eventDetails.eventDate)
         timeLbl.text = timeFormatter.string(from: event.eventDetails.eventTime)
         
