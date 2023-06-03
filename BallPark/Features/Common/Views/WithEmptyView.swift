@@ -38,9 +38,10 @@ extension WithEmptyView {
         let wrapper = UIView()
         view.addSubview(wrapper)
         
+        
         wrapper.layer.masksToBounds = true
         wrapper.layer.cornerRadius = 8
-        wrapper.backgroundColor = .red
+        wrapper.backgroundColor = UIColor(named: "DefaultEmptyBackground")
         wrapper.layoutMargins = .init(top: 20, left: 20, bottom: 20, right: 20)
         
         wrapper.translatesAutoresizingMaskIntoConstraints = false
@@ -53,6 +54,7 @@ extension WithEmptyView {
         ])
         
         let empty = UILabel()
+        empty.textColor = UIColor(named: "DefaultEmptyForeground")
         empty.numberOfLines = 0
         wrapper.addSubview(empty)
         

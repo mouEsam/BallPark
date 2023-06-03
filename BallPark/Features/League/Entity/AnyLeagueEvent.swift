@@ -25,8 +25,8 @@ protocol AnyLeagueEventSide: Decodable {
 
 struct EventDetails: Decodable {
     let eventKey: Int64
-    let eventDate: Date
-    let eventTime: Date
+    let eventDate: Date?
+    let eventTime: Date?
     let eventFinalResult: String?
     let eventStatus: String?
     let eventStadium: String?
@@ -35,14 +35,15 @@ struct EventDetails: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.eventKey = try container.decode(Int64.self, forKey: .eventKey)
         self.eventDate = [
-            try container.decodeIfPresent(Date.self, forKey: .eventDate),
-            try container.decodeIfPresent(Date.self, forKey: .cricketEventDate),
-        ].compactMap({ $0 }).first!
+            try? container.decodeIfPresent(Date.self, forKey: .eventDate),
+            try? container.decodeIfPresent(Date.self, forKey: .cricketEventDate),
+        ].compactMap({ $0 }).first
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         
-        self.eventTime = dateFormatter.date(from: try container.decode(String.self, forKey: .eventTime))!
+        self.eventTime = (try? container.decodeIfPresent(String.self, forKey: .eventTime))?.nilIfEmpty()
+            .map { dateFormatter.date(from: $0)! }
         self.eventFinalResult = try {
             let result1 = try container.decodeIfPresent(String.self, forKey: .eventFinalResult)?.nilIfBlank()
             let result2 = [try container.decodeIfPresent(String.self, forKey: .eventHomeFinalResult)?.nilIfBlank(),

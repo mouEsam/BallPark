@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -219,12 +220,13 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" insetsLayoutMarginsFromSafeArea="NO" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAt-VQ-4tO">
                                                             <rect key="frame" x="35.333333333333329" y="94" width="41.333333333333329" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" name="DefaultPlayerForeground"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
+                                            <color key="backgroundColor" name="DefaultPlayerBackground"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Ytk-51-Ecq" secondAttribute="trailing" id="1zh-yQ-CIA"/>
                                                 <constraint firstItem="Ytk-51-Ecq" firstAttribute="leading" secondItem="i6v-3G-adK" secondAttribute="leadingMargin" id="DzR-Iy-SWz"/>
@@ -342,51 +344,70 @@
                                         <rect key="frame" x="0.0" y="58" width="393" height="142"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BNP-TM-l9e">
-                                            <size key="itemSize" width="285" height="147"/>
+                                            <size key="itemSize" width="358" height="124"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="eventCell" id="6R1-Wb-ewz">
-                                                <rect key="frame" x="0.0" y="-2.6666666666666665" width="285" height="147"/>
+                                                <rect key="frame" x="0.0" y="9" width="358" height="124"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hDU-jr-UxN">
-                                                    <rect key="frame" x="0.0" y="0.0" width="285" height="147"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="358" height="124"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWO-DV-raL" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                            <rect key="frame" x="18" y="18" width="63" height="63"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="RWO-DV-raL" secondAttribute="height" id="P4U-l5-Gb6"/>
+                                                            </constraints>
+                                                        </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-7v-wBv">
-                                                            <rect key="frame" x="18" y="35" width="249" height="77"/>
+                                                            <rect key="frame" x="91" y="23.666666666666671" width="176" height="77"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGw-nK-MFS">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="249" height="20.333333333333332"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IA3-CI-K3B">
-                                                                    <rect key="frame" x="0.0" y="28.333333333333336" width="249" height="20.333333333333336"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IA3-CI-K3B">
+                                                                    <rect key="frame" x="0.0" y="28.333333333333336" width="176" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-fs-M4p">
-                                                                    <rect key="frame" x="0.0" y="56.666666666666679" width="249" height="20.333333333333336"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-fs-M4p">
+                                                                    <rect key="frame" x="0.0" y="56.666666666666664" width="176" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vph-KC-YGG" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                            <rect key="frame" x="277" y="18" width="63" height="63"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="Vph-KC-YGG" secondAttribute="height" id="ob8-9L-rLr"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
+                                                    <color key="backgroundColor" name="DefaultEventBackground"/>
                                                     <constraints>
-                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="leading" secondItem="hDU-jr-UxN" secondAttribute="leadingMargin" constant="10" id="1fB-qd-1hZ"/>
+                                                        <constraint firstItem="Vph-KC-YGG" firstAttribute="leading" secondItem="mhC-7v-wBv" secondAttribute="trailing" constant="10" id="6cO-PH-QOp"/>
                                                         <constraint firstItem="mhC-7v-wBv" firstAttribute="centerY" secondItem="hDU-jr-UxN" secondAttribute="centerY" id="B9S-Tz-czY"/>
+                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="leading" secondItem="RWO-DV-raL" secondAttribute="trailing" constant="10" id="EsB-gr-hrf"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="Vph-KC-YGG" secondAttribute="trailing" constant="10" id="KQg-f0-eJ1"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="RWO-DV-raL" secondAttribute="bottom" constant="10" id="Z8W-F5-6vP"/>
+                                                        <constraint firstItem="RWO-DV-raL" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="ZeX-8g-pkn"/>
+                                                        <constraint firstItem="RWO-DV-raL" firstAttribute="leading" secondItem="hDU-jr-UxN" secondAttribute="leadingMargin" constant="10" id="Zop-qR-j0A"/>
                                                         <constraint firstItem="mhC-7v-wBv" firstAttribute="height" relation="lessThanOrEqual" secondItem="hDU-jr-UxN" secondAttribute="height" id="e2T-v1-hjC"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="mhC-7v-wBv" secondAttribute="trailing" constant="10" id="sh4-bl-iKt"/>
+                                                        <constraint firstItem="Vph-KC-YGG" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="iMV-MJ-rne"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="Vph-KC-YGG" secondAttribute="bottom" constant="10" id="vvH-7a-xgg"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
-                                                <size key="customSize" width="285" height="147"/>
+                                                <size key="customSize" width="358" height="124"/>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
@@ -468,12 +489,13 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" insetsLayoutMarginsFromSafeArea="NO" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="527-SG-45N">
                                                                     <rect key="frame" x="26.333333333333332" y="94" width="41.333333333333343" height="26"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultTeamForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
                                                     </subviews>
+                                                    <color key="backgroundColor" name="DefaultTeamBackground"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottomMargin" secondItem="7Rd-wO-b0h" secondAttribute="bottom" id="BrR-A1-GrN"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="7Rd-wO-b0h" secondAttribute="trailing" id="SqB-zb-v7u"/>
@@ -571,24 +593,25 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcu-HD-BeJ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="147" height="20.333333333333332"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpR-ev-XIH">
                                                                     <rect key="frame" x="0.0" y="27.333333333333336" width="147" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0z-qa-14B">
                                                                     <rect key="frame" x="0.0" y="54.666666666666679" width="147" height="20.333333333333336"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
                                                     </subviews>
+                                                    <color key="backgroundColor" name="DefaultEventBackground"/>
                                                     <constraints>
                                                         <constraint firstItem="Yv0-gH-iq2" firstAttribute="height" relation="lessThanOrEqual" secondItem="mNY-Oj-wIH" secondAttribute="height" id="1TD-ZF-1kV"/>
                                                         <constraint firstItem="34G-oX-H80" firstAttribute="leading" secondItem="Yv0-gH-iq2" secondAttribute="trailing" constant="10" id="8PO-0A-4EP"/>
@@ -631,6 +654,24 @@
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="soccerball.inverse" catalog="system" width="128" height="123"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
+        <namedColor name="DefaultEventBackground">
+            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="DefaultEventForeground">
+            <color red="0.12330983004187228" green="0.18312110135798115" blue="0.2247503221649485" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="DefaultPlayerBackground">
+            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="DefaultPlayerForeground">
+            <color red="0.1215686351" green="0.1843137443" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="DefaultTeamBackground">
+            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="DefaultTeamForeground">
+            <color red="0.1215686351" green="0.1843137443" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
