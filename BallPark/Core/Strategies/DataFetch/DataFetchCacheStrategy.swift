@@ -10,10 +10,10 @@ import Reachability
 
 class DataFetchCacheStrategy: AnyDataFetchCacheStrategy {
     
-    private let reachability: Reachability?
+    private let connectivity: any AnyConnectivity
     
-    init(reachability: Reachability?) {
-        self.reachability = reachability
+    init(connectivity: some AnyConnectivity) {
+        self.connectivity = connectivity
     }
     
     func fetch<T: Decodable>(_ type: T.Type,
@@ -21,13 +21,11 @@ class DataFetchCacheStrategy: AnyDataFetchCacheStrategy {
                              localFetch: @escaping (@escaping Completion<T>) -> Void,
                              localCache: @escaping (T) -> Result<Void, Error>,
                              completion: @escaping (FetchResult<T>) -> Void) {
-        if let reachability = self.reachability {
-            if reachability.connection == .unavailable {
-                localFetch { localResult in
-                    completion(localResult.map { .local($0) })
-                }
-                return
+        if !connectivity.isConnected {
+            localFetch { localResult in
+                completion(localResult.map { .local($0) })
             }
+            return
         }
         remoteFetch { remoteResult in
             if case .success(let remoteData) = remoteResult {

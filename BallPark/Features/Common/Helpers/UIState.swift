@@ -66,7 +66,7 @@ enum UIState<T>: AnyUIState {
     case initial
     case loading
     case loaded(data: any AnySourcedData<T>)
-    case error(error: Error)
+    case error(error: any Error)
     
     var data: T? {
         if case let .loaded(data) = self {

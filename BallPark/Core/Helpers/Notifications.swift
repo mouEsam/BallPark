@@ -18,12 +18,12 @@ extension AppNotification {
         return Notification(name: Self.name, object: self)
     }
     
-    func post(_ center: NotificationCenter) {
+    func post(_ center: some AnyNotificationCenter) {
         center.post(toNotification())
     }
 }
 
-extension NotificationCenter {
+extension AnyNotificationCenter {
     func post(_ notification: some AppNotification) {
         post(notification.toNotification())
     }

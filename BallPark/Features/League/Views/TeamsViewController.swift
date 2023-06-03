@@ -113,6 +113,7 @@ extension TeamsViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
         let item = teams[indexPath.row]
         if let team = item as? Team,
+           team.sportType == .football || team.sportType == .tennis,
            let teamIdentity = team.identity {
             let vc = instantiate(TeamViewController.self, args: teamIdentity)
             navigationController?.pushViewController(vc, animated: true)

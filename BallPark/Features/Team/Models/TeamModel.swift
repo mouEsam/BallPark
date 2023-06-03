@@ -8,7 +8,14 @@
 import Foundation
 import Reachability
 
-class TeamModel {
+protocol AnyTeamModel {
+    func load(teamIdentity: TeamIdentity,
+              completion: @escaping (Result<SourcedData<Team>, Error>) -> Void)
+    
+    func toggleFavourite(_ team: Team, completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+class TeamModel: AnyTeamModel {
     private let database: (any AnyTeamDatabase)
     
     init(database: any AnyTeamDatabase) {

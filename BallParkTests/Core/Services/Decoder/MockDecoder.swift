@@ -10,7 +10,7 @@ import Foundation
 
 class MockDecoder: AnyDecoder {
     
-    var result: Any? = nil
+    var result: Any! = nil
     
     var decoder: (any AnyDecoder)? = nil
     

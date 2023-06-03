@@ -36,13 +36,13 @@ class PlayersViewModel {
     @Published private(set) var uiState: UIState<[Player]> = .initial
     
     private let teamIdentity: TeamIdentity
-    private let model: PlayersModel
-    private let queue: DispatchQueue = DispatchQueue(label: "team", attributes: .concurrent)
+    private let model: any AnyPlayersModel
+    private let queue: DispatchQueue = DispatchQueue(label: "players", attributes: .concurrent)
     
     private var started: Bool = false
     
     init(teamIdentity: TeamIdentity,
-         model: PlayersModel) {
+         model: some AnyPlayersModel) {
         self.teamIdentity = teamIdentity
         self.model = model
     }

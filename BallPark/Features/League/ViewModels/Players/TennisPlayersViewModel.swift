@@ -15,7 +15,7 @@ class TennisPlayersViewModel: AnyPlayersViewModel {
     var uiStatePublisher: Published<UIState<[any AnyPlayer]>>.Publisher { $uiState }
     
     private let leagueIdentity: LeagueIdentity
-    private let notificationCenter: NotificationCenter
+    private let notificationCenter: any AnyNotificationCenter
     
     private var cancellable: AnyCancellable?
     
@@ -23,7 +23,7 @@ class TennisPlayersViewModel: AnyPlayersViewModel {
     var emptyMessageKey: String { "No players found" }
     
     init(leagueIdentity: LeagueIdentity,
-         notificationCenter: NotificationCenter) {
+         notificationCenter: some AnyNotificationCenter) {
         self.leagueIdentity = leagueIdentity
         self.notificationCenter = notificationCenter
     }

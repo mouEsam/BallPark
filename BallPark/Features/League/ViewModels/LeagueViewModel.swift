@@ -23,7 +23,7 @@ struct LeagueViewModelFactory: AnyLeagueViewModelFactory {
     func create(for leagueIdentity: LeagueIdentity) -> LeagueViewModel {
         return LeagueViewModel(leagueIdentity: leagueIdentity,
                                model: LeagueModel(database: container.require((any AnyLeagueDatabase).self)),
-                               notificationCenter: container.require(NotificationCenter.self))
+                               notificationCenter: container.require((any AnyNotificationCenter).self))
     }
 }
 
@@ -34,14 +34,14 @@ class LeagueViewModel {
     
     private let leagueIdentity: LeagueIdentity
     private let model: LeagueModel
-    private let notificationCenter: NotificationCenter
+    private let notificationCenter: any AnyNotificationCenter
     private let queue: DispatchQueue = DispatchQueue(label: "laegue", attributes: .concurrent)
     
     private var started: Bool = false
     
     init(leagueIdentity: LeagueIdentity,
          model: LeagueModel,
-         notificationCenter: NotificationCenter) {
+         notificationCenter: some AnyNotificationCenter) {
         self.leagueIdentity = leagueIdentity
         self.model = model
         self.notificationCenter = notificationCenter

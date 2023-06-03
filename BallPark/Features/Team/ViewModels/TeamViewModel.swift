@@ -22,8 +22,7 @@ struct TeamViewModelFactory: AnyTeamViewModelFactory {
     
     func create(for teamIdentity: TeamIdentity) -> TeamViewModel {
         return TeamViewModel(teamIdentity: teamIdentity,
-                                  model: TeamModel(database: container.require((any AnyTeamDatabase).self)),
-                                  notificationCenter: container.require(NotificationCenter.self))
+                                  model: TeamModel(database: container.require((any AnyTeamDatabase).self)))
     }
 }
 
@@ -33,18 +32,15 @@ class TeamViewModel {
     @Published private(set) var uiState: UIState<Team> = .initial
     
     private let teamIdentity: TeamIdentity
-    private let model: TeamModel
-    private let notificationCenter: NotificationCenter
+    private let model: any AnyTeamModel
     private let queue: DispatchQueue = DispatchQueue(label: "team", attributes: .concurrent)
     
     private var started: Bool = false
     
     init(teamIdentity: TeamIdentity,
-         model: TeamModel,
-         notificationCenter: NotificationCenter) {
+         model: some AnyTeamModel) {
         self.teamIdentity = teamIdentity
         self.model = model
-        self.notificationCenter = notificationCenter
     }
     
     func loadTeam() {

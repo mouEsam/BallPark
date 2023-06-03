@@ -26,7 +26,7 @@ struct LeagueEventsViewModelFactory: AnyLeagueEventsViewModelFactory {
         return LeagueEventsViewModel(eventsRangeType: eventsRangeType,
                                      leagueIdentity: leagueIdentity,
                                      model: container.require((any AnyLeagueEventsModelFactory).self).create(for: eventsRangeType),
-                                     notificationCenter: container.require(NotificationCenter.self))
+                                     notificationCenter: container.require((any AnyNotificationCenter).self))
     }
 }
 
@@ -43,13 +43,13 @@ class LeagueEventsViewModel {
     private let eventsRangeType: EventsRangeType
     private let leagueIdentity: LeagueIdentity
     private let model: any AnyLeagueEventsModel
-    private let notificationCenter: NotificationCenter
+    private let notificationCenter: any AnyNotificationCenter
     private let queue: DispatchQueue = DispatchQueue(label: "nextEvents", attributes: .concurrent)
     
     init(eventsRangeType: EventsRangeType,
          leagueIdentity: LeagueIdentity,
          model: some AnyLeagueEventsModel,
-         notificationCenter: NotificationCenter) {
+         notificationCenter: some AnyNotificationCenter) {
         self.eventsRangeType = eventsRangeType
         self.leagueIdentity = leagueIdentity
         self.model = model

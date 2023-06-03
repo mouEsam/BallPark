@@ -96,7 +96,8 @@ class FavouriteTeamsViewController: UITableViewController, AnyStoryboardView, Wi
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let team = teams[indexPath.row]
-        if let teamIdentity = team.identity {
+        if team.sportType == .football || team.sportType == .tennis,
+           let teamIdentity = team.identity {
             let vc = instantiate(TeamViewController.self, args: teamIdentity)
             navigationController?.pushViewController(vc, animated: true)
         }
