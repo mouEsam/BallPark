@@ -38,9 +38,10 @@ extension WithErrorView {
         let wrapper = UIView()
         view.addSubview(wrapper)
         
+        
         wrapper.layer.masksToBounds = true
         wrapper.layer.cornerRadius = 8
-        wrapper.backgroundColor = .red
+        wrapper.backgroundColor = UIColor(named: "DefaultErrorBackground")
         wrapper.layoutMargins = .init(top: 20, left: 20, bottom: 20, right: 20)
         
         wrapper.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +55,7 @@ extension WithErrorView {
         ])
         
         let error = UILabel()
+        error.textColor = UIColor(named: "DefaultErrorForeground")
         error.numberOfLines = 0
         wrapper.addSubview(error)
         

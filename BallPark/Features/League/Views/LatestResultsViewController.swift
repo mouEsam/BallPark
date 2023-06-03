@@ -26,7 +26,7 @@ class LatestResultsViewController: UIViewController, WithArgs, AnyStoryboardView
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        viewModel = container.require((any AnyLeagueEventsViewModelFactory).self).create(for: args, withRange: .live)
+        viewModel = container.require((any AnyLeagueEventsViewModelFactory).self).create(for: args, withRange: .latest)
     }
     
     override func viewDidLoad() {
@@ -42,8 +42,10 @@ class LatestResultsViewController: UIViewController, WithArgs, AnyStoryboardView
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        collectionView.contentInset.top = 10
         collectionView.contentInset.left = 10
         collectionView.contentInset.right = 10
+        collectionView.contentInset.bottom = 10
         
         viewModel.$uiState
             .receive(on: DispatchQueue.main)
@@ -95,7 +97,6 @@ extension LatestResultsViewController: UICollectionViewDataSource {
         
         cell.layer.cornerRadius = 8.0
         cell.layer.masksToBounds = true
-        cell.backgroundColor = .blue
         
         let firstSide = event.firstSide
         let secondSide = event.secondSide
@@ -107,8 +108,8 @@ extension LatestResultsViewController: UICollectionViewDataSource {
         let awayTeamImg = cell.viewWithTag(5) as! UIImageView
         
         nameLbl.text = "\(event.firstSide.name) vs. \(event.secondSide.name)"
-        dateLbl.text = dateFormatter.string(from: event.eventDetails.eventDate)
-        timeLbl.text = timeFormatter.string(from: event.eventDetails.eventTime)
+        dateLbl.text =  event.eventDetails.eventDate.map { dateFormatter.string(from: $0) } ?? nil
+        timeLbl.text = event.eventDetails.eventTime.map { timeFormatter.string(from: $0) } ?? nil
         
         imageLoader.load(imageUrl: firstSide.logo, into: homeTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
         imageLoader.load(imageUrl: secondSide.logo, into: awayTeamImg, placeholder: UIImage(named: event.sportType.uiImage))

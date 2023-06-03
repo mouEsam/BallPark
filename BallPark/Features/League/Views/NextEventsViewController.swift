@@ -45,6 +45,7 @@ class NextEventsViewController: UIViewController, AnyStoryboardView, WithArgs, W
         
         collectionView.contentInset.left = 10
         collectionView.contentInset.right = 10
+        collectionView.contentInset.bottom = 10
         
         viewModel.$uiState
             .receive(on: DispatchQueue.main)
@@ -96,7 +97,6 @@ extension NextEventsViewController: UICollectionViewDataSource {
         
         cell.layer.cornerRadius = 8.0
         cell.layer.masksToBounds = true
-        cell.backgroundColor = .blue
         
         let firstSide = event.firstSide
         let secondSide = event.secondSide
@@ -104,10 +104,15 @@ extension NextEventsViewController: UICollectionViewDataSource {
         let nameLbl = cell.viewWithTag(1) as! UILabel
         let dateLbl = cell.viewWithTag(2) as! UILabel
         let timeLbl = cell.viewWithTag(3) as! UILabel
+        let homeTeamImg = cell.viewWithTag(4) as! UIImageView
+        let awayTeamImg = cell.viewWithTag(5) as! UIImageView
         
         nameLbl.text = "\(firstSide.name) vs. \(secondSide.name)"
-        dateLbl.text = dateFormatter.string(from: event.eventDetails.eventDate)
-        timeLbl.text = timeFormatter.string(from: event.eventDetails.eventTime)
+        dateLbl.text =  event.eventDetails.eventDate.map { dateFormatter.string(from: $0) } ?? nil
+        timeLbl.text = event.eventDetails.eventTime.map { timeFormatter.string(from: $0) } ?? nil
+        
+        imageLoader.load(imageUrl: firstSide.logo, into: homeTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
+        imageLoader.load(imageUrl: secondSide.logo, into: awayTeamImg, placeholder: UIImage(named: event.sportType.uiImage))
         
         return cell
     }
@@ -119,9 +124,10 @@ extension NextEventsViewController: UICollectionViewDelegate {
 
 extension NextEventsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let insets = collectionView.contentInset + (collectionViewLayout as! UICollectionViewFlowLayout).sectionInset
-        let collectionHeight = collectionView.bounds.height - insets.top - insets.bottom
+        let layout = (collectionViewLayout as! UICollectionViewFlowLayout)
+        let insets = collectionView.contentInset + layout.sectionInset
+        let collectionHeight = collectionView.bounds.height - insets.top - insets.bottom - layout.minimumLineSpacing
         
-        return CGSize(width: 200, height: collectionHeight)
+        return CGSize(width: 400, height: collectionHeight)
     }
 }

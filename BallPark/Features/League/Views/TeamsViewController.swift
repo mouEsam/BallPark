@@ -96,7 +96,6 @@ extension TeamsViewController: UICollectionViewDataSource {
         
         cell.layer.cornerRadius = 8.0
         cell.layer.masksToBounds = true
-        cell.backgroundColor = .blue
         
         let imageV = cell.viewWithTag(1) as! UIImageView
         let nameLbl = cell.viewWithTag(2) as! UILabel
