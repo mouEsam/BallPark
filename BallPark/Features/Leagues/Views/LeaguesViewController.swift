@@ -16,11 +16,10 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     typealias Args = SportType
     class var storyboardId: String { "leaguesVC" }
     
+    private var dataHolder: LeaguesDataHolder!
     private var imageLoader: (any AnyImageLoader)!
     private var viewModel: (any AnyLeaguesViewModel)!
     private var subscribers: [AnyCancellable] = []
-    
-    private var leagues: [League] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +35,16 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
         tableView.register(UINib(nibName: "LeagueTableViewCell",
                                  bundle: Bundle(for: LeagueTableViewCell.self)),
                            forCellReuseIdentifier: leagueCellId)
+        
+        dataHolder = LeaguesDataHolder(leagueCellId: leagueCellId,
+                                       tableView: tableView,
+                                       view: self,
+                                       imageLoader: imageLoader)
     }
     
     func inject(_ container: Container) {
         imageLoader = container.require((any AnyImageLoader).self)
-        if let viewModel = container.resolve(AnyLeaguesViewModel.self) {
-            self.viewModel = viewModel
-        } else {
-            viewModel = container.require((any AnyLeaguesViewModelFactory).self).create(for: args)
-        }
+        viewModel = container.require((any AnyLeaguesViewModelFactory).self).create(for: args)
     }
     
     func handleUIState(_ state: UIState<[League]>) {
@@ -57,7 +57,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
                 self.hideLoader()
                 self.hideError()
                 self.hideEmpty()
-                self.setData(data.data)
+                self.dataHolder.setData(data.data)
             case .error(error: let error):
                 self.hideLoader()
                 self.hideError()
@@ -69,41 +69,24 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
     
     // MARK: - Table view data source
     
-    private func setData(_ data: [League]) {
-        leagues = data
-        if data.isEmpty {
-            showEmpty(message: "No leagues found")
-        }
-        tableView.reloadData()
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return dataHolder.numberOfSections(in: tableView)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return leagues.count
+        return dataHolder.tableView(tableView, numberOfRowsInSection: section)
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: leagueCellId, for: indexPath) as! LeagueTableViewCell
-        
-        cell.setLeague(leagues[indexPath.item], imageLoader: imageLoader)
-        
-        return cell
+        return dataHolder.tableView(tableView, cellForRowAt: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return dataHolder.tableView(tableView, heightForRowAt: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let league = leagues[indexPath.row]
-        if let leagueIdentity = league.identity {
-            let vc = instantiate(LeagueViewController.self, args: leagueIdentity)
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        dataHolder.tableView(tableView, didSelectRowAt: indexPath)
     }
 }

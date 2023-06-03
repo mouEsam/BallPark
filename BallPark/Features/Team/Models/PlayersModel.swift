@@ -8,7 +8,11 @@
 import Foundation
 import Reachability
 
-class PlayersModel {
+protocol AnyPlayersModel {
+    func load(teamIdentity: TeamIdentity, completion: @escaping (Result<SourcedData<[Player]>, Error>) -> Void)
+}
+
+class PlayersModel: AnyPlayersModel {
     
     private let remoteService: any AnyPlayersRemoteService
     private let fetchCacheStrategy: any AnyDataFetchCacheStrategy

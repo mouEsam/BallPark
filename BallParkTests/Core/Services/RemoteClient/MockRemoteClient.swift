@@ -10,7 +10,7 @@ import Foundation
 
 class MockRemoteClient: RemoteClient {
     
-    var result: Result<Data?, Error>? = nil
+    var result: Result<Data?, Error>! = nil
     
     var client: (any RemoteClient)?
     
@@ -26,7 +26,7 @@ class MockRemoteClient: RemoteClient {
                                   queryParams: queryParams,
                                   completion: completion)
         } else {
-            completion(result!)
+            completion(result)
             return MockCancellabel()
         }
     }

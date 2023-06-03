@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.register(AnyEnvironmentProvider.self) { resolver in
             EnviromentProvider()
         }
-        if let reachability = try? Reachability() {
-            container.register(Reachability.self) { resolver in reachability }
+        container.register((any AnyConnectivity).self) { resolver in
+            ReachabilityConnectivity(reachability: try? Reachability())
         }
         container.register(Calendar.self) { resolver in Calendar.current }
         container.register(TimeZone.self) { resolver in TimeZone.current }
@@ -35,19 +35,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     decoder: resolver.require((any AnyDecoder).self))
         }
         container.register((any AnyDataFetchCacheStrategy).self) { resolver in
-            DataFetchCacheStrategy(reachability: resolver.resolve(Reachability.self))
+            DataFetchCacheStrategy(connectivity: resolver.require((any AnyConnectivity).self))
         }
         
         container.register(NSManagedObjectContext.self) { [weak self] resolver in
             guard let self = self else { fatalError("Unresolved self") }
             return self.persistentContainer.viewContext
         }
-        container.register(NotificationCenter.self) { resolver in
+        container.register((any AnyNotificationCenter).self) { resolver in
             NotificationCenter.default
         }
         container.register(LeagueDatabase.self) { resolver in
             LeagueDatabase(context: resolver.require(NSManagedObjectContext.self),
-                           notificationCenter: resolver.require(NotificationCenter.self)
+                           notificationCenter: resolver.require((any AnyNotificationCenter).self)
             )
         }
         container.register((any Database<League>).self) { resolver in
@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         container.register(TeamDatabase.self) { resolver in
             TeamDatabase(context: resolver.require(NSManagedObjectContext.self),
-                         notificationCenter: resolver.require(NotificationCenter.self)
+                         notificationCenter: resolver.require((any AnyNotificationCenter).self)
             )
         }
         container.register((any Database<Team>).self) { resolver in
@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         container.register(PlayerDatabase.self) { resolver in
             PlayerDatabase(context: resolver.require(NSManagedObjectContext.self),
-                           notificationCenter: resolver.require(NotificationCenter.self)
+                           notificationCenter: resolver.require((any AnyNotificationCenter).self)
             )
         }
         container.register((any Database<Player>).self) { resolver in

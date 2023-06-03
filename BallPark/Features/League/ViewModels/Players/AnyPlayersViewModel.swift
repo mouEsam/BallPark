@@ -30,10 +30,13 @@ struct TeamsViewModelFactory: AnyTeamsViewModelFactory {
     }
     
     func create(for leagueIdentity: LeagueIdentity) -> any AnyPlayersViewModel {
+        let model = container.require((any AnyLeaguePlayersModelFactory).self).create(for: leagueIdentity.sportType)
+        return TeamsViewModel(leagueIdentity: leagueIdentity, model: model)
+        
         switch leagueIdentity.sportType {
             case .tennis:
                 return TennisPlayersViewModel(leagueIdentity: leagueIdentity,
-                                              notificationCenter: container.require(NotificationCenter.self))
+                                              notificationCenter: container.require((any AnyNotificationCenter).self))
             default:
                 let model = container.require((any AnyLeaguePlayersModelFactory).self).create(for: leagueIdentity.sportType)
                 return TeamsViewModel(leagueIdentity: leagueIdentity, model: model)

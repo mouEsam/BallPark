@@ -17,9 +17,9 @@ class PlayerDatabase: AnyPlayerDatabase {
     typealias Entity = Player
     
     private let context: NSManagedObjectContext
-    private let notificationCenter: NotificationCenter
+    private let notificationCenter: any AnyNotificationCenter
     
-    init(context: NSManagedObjectContext, notificationCenter: NotificationCenter) {
+    init(context: NSManagedObjectContext, notificationCenter: some AnyNotificationCenter) {
         self.context = context
         self.notificationCenter = notificationCenter
     }

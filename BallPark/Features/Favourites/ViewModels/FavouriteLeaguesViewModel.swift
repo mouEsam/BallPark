@@ -22,7 +22,7 @@ struct FavouriteLeaguesViewModelFactory: AnyFavouriteLeaguesViewModelFactory {
     
     func create() -> FavouriteLeaguesViewModel {
         return FavouriteLeaguesViewModel(model: FavouriteLeaguesModel(database: container.require((any FavouritesDatabase<League>).self)),
-                                         notificationCenter: container.require(NotificationCenter.self))
+                                         notificationCenter: container.require((any AnyNotificationCenter).self))
     }
 }
 
@@ -32,12 +32,12 @@ class FavouriteLeaguesViewModel: AnyLeaguesViewModel {
     var uiStatePublisher: Published<UIState<[League]>>.Publisher { $uiState }
     
     private let model: FavouriteLeaguesModel
-    private let notificationCenter: NotificationCenter
+    private let notificationCenter: any AnyNotificationCenter
     private let queue: DispatchQueue = DispatchQueue(label: "favouriteLeagues", attributes: .concurrent)
     private var started: Bool = false
     private var cancellables: Set<AnyCancellable> = []
     
-    init(model: FavouriteLeaguesModel, notificationCenter: NotificationCenter) {
+    init(model: FavouriteLeaguesModel, notificationCenter: some AnyNotificationCenter) {
         self.model = model
         self.notificationCenter = notificationCenter
     }
