@@ -8,6 +8,9 @@ target 'BallPark' do
   pod 'Alamofire', '~> 5.7'
   pod 'Swinject', '~> 2.8'
 
+  target 'BallParkTests' do
+    inherit! :search_paths
+  end
 end
 
 post_install do |installer|

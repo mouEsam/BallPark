@@ -11,4 +11,5 @@ struct AppConfigs {
     private init() {}
     
     static let maxApiIntervalDays = 365
+    static let baseUrl = URL(string: "https://apiv2.allsportsapi.com/")!
 }

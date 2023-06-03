@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "9D9657F7-5C0F-4B8B-A6A0-7EB9962295C1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:BallPark.xcodeproj",
+      "identifier" : "D4E0EC082A20D5A000EF0BE7",
+      "name" : "BallPark"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:BallPark.xcodeproj",
+        "identifier" : "D468A3B42A2A648500DC693B",
+        "name" : "BallParkTests"
+      }
+    }
+  ],
+  "version" : 1
+}
