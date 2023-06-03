@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.register(TimeZone.self) { resolver in TimeZone.current }
         container.register((any AnyImageLoader).self) { resolver in KFImageLoader() }
         container.register((any RemoteClient).self) { resolver in
-            AFRemoteClient(baseUrl: URL(string: "https://apiv2.allsportsapi.com/")!)
+            AFRemoteClient(baseUrl: AppConfigs.baseUrl)
         }
         container.register((any AnyDecoder).self) { resolver in
             JsonDecoder()

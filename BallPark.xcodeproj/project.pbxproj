@@ -35,6 +35,12 @@
 		D468A3C92A2A8D4E00DC693B /* AnyPlayersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3C82A2A8D4E00DC693B /* AnyPlayersViewModel.swift */; };
 		D468A3CB2A2A8ED100DC693B /* TennisPlayersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3CA2A2A8ED100DC693B /* TennisPlayersViewModel.swift */; };
 		D468A3CF2A2A940F00DC693B /* LeagueEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3CE2A2A940F00DC693B /* LeagueEvents.swift */; };
+		D468A3D42A2ACC7900DC693B /* PlayersRemoteServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3D32A2ACC7900DC693B /* PlayersRemoteServiceTests.swift */; };
+		D468A3D92A2ACEDE00DC693B /* MockDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3D82A2ACEDE00DC693B /* MockDecoder.swift */; };
+		D468A3DD2A2ACF6400DC693B /* MockRemoteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3DC2A2ACF6400DC693B /* MockRemoteClient.swift */; };
+		D468A3E02A2AD42E00DC693B /* TestManagedObjectContextFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3DF2A2AD42E00DC693B /* TestManagedObjectContextFactory.swift */; };
+		D468A3E22A2AD4CB00DC693B /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468A3E12A2AD4CB00DC693B /* TestError.swift */; };
+		D468A3E42A2AD9D000DC693B /* PlayersResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = D468A3E32A2AD9D000DC693B /* PlayersResponse.json */; };
 		D47F7B512A26CBF100BBEF73 /* AnyImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F7B502A26CBF100BBEF73 /* AnyImageLoader.swift */; };
 		D47F7B532A26CC6100BBEF73 /* KFImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F7B522A26CC6100BBEF73 /* KFImageLoader.swift */; };
 		D47F7B552A26D30B00BBEF73 /* WithEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F7B542A26D30B00BBEF73 /* WithEmptyView.swift */; };
@@ -149,6 +155,12 @@
 		D468A3C82A2A8D4E00DC693B /* AnyPlayersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyPlayersViewModel.swift; sourceTree = "<group>"; };
 		D468A3CA2A2A8ED100DC693B /* TennisPlayersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TennisPlayersViewModel.swift; sourceTree = "<group>"; };
 		D468A3CE2A2A940F00DC693B /* LeagueEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueEvents.swift; sourceTree = "<group>"; };
+		D468A3D32A2ACC7900DC693B /* PlayersRemoteServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersRemoteServiceTests.swift; sourceTree = "<group>"; };
+		D468A3D82A2ACEDE00DC693B /* MockDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDecoder.swift; sourceTree = "<group>"; };
+		D468A3DC2A2ACF6400DC693B /* MockRemoteClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRemoteClient.swift; sourceTree = "<group>"; };
+		D468A3DF2A2AD42E00DC693B /* TestManagedObjectContextFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManagedObjectContextFactory.swift; sourceTree = "<group>"; };
+		D468A3E12A2AD4CB00DC693B /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
+		D468A3E32A2AD9D000DC693B /* PlayersResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PlayersResponse.json; sourceTree = "<group>"; };
 		D47F7B502A26CBF100BBEF73 /* AnyImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyImageLoader.swift; sourceTree = "<group>"; };
 		D47F7B522A26CC6100BBEF73 /* KFImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KFImageLoader.swift; sourceTree = "<group>"; };
 		D47F7B542A26D30B00BBEF73 /* WithEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithEmptyView.swift; sourceTree = "<group>"; };
@@ -263,6 +275,8 @@
 		D468A3B62A2A648500DC693B /* BallParkTests */ = {
 			isa = PBXGroup;
 			children = (
+				D468A3D52A2ACE2700DC693B /* Core */,
+				D468A3D02A2ACC4800DC693B /* Features */,
 				D468A3B72A2A648500DC693B /* BallParkTests.swift */,
 			);
 			path = BallParkTests;
@@ -293,6 +307,74 @@
 			isa = PBXGroup;
 			children = (
 				D468A3CE2A2A940F00DC693B /* LeagueEvents.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D468A3D02A2ACC4800DC693B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3D12A2ACC5200DC693B /* Team */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D468A3D12A2ACC5200DC693B /* Team */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3D22A2ACC5B00DC693B /* Services */,
+			);
+			path = Team;
+			sourceTree = "<group>";
+		};
+		D468A3D22A2ACC5B00DC693B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3D32A2ACC7900DC693B /* PlayersRemoteServiceTests.swift */,
+				D468A3E32A2AD9D000DC693B /* PlayersResponse.json */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D468A3D52A2ACE2700DC693B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3DE2A2AD41600DC693B /* Helpers */,
+				D468A3D62A2ACE3100DC693B /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D468A3D62A2ACE3100DC693B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3DA2A2ACF4D00DC693B /* RemoteClient */,
+				D468A3D72A2ACE4200DC693B /* Decoder */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D468A3D72A2ACE4200DC693B /* Decoder */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3D82A2ACEDE00DC693B /* MockDecoder.swift */,
+			);
+			path = Decoder;
+			sourceTree = "<group>";
+		};
+		D468A3DA2A2ACF4D00DC693B /* RemoteClient */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3DC2A2ACF6400DC693B /* MockRemoteClient.swift */,
+			);
+			path = RemoteClient;
+			sourceTree = "<group>";
+		};
+		D468A3DE2A2AD41600DC693B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D468A3DF2A2AD42E00DC693B /* TestManagedObjectContextFactory.swift */,
+				D468A3E12A2AD4CB00DC693B /* TestError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -931,6 +1013,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D468A3E42A2AD9D000DC693B /* PlayersResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,7 +1079,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D468A3E22A2AD4CB00DC693B /* TestError.swift in Sources */,
+				D468A3D92A2ACEDE00DC693B /* MockDecoder.swift in Sources */,
+				D468A3D42A2ACC7900DC693B /* PlayersRemoteServiceTests.swift in Sources */,
+				D468A3DD2A2ACF6400DC693B /* MockRemoteClient.swift in Sources */,
 				D468A3B82A2A648500DC693B /* BallParkTests.swift in Sources */,
+				D468A3E02A2AD42E00DC693B /* TestManagedObjectContextFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

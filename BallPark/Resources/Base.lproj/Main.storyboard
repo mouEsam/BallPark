@@ -402,7 +402,7 @@
                                                         <constraint firstAttribute="bottomMargin" secondItem="RWO-DV-raL" secondAttribute="bottom" constant="10" id="Z8W-F5-6vP"/>
                                                         <constraint firstItem="RWO-DV-raL" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="ZeX-8g-pkn"/>
                                                         <constraint firstItem="RWO-DV-raL" firstAttribute="leading" secondItem="hDU-jr-UxN" secondAttribute="leadingMargin" constant="10" id="Zop-qR-j0A"/>
-                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="height" relation="lessThanOrEqual" secondItem="hDU-jr-UxN" secondAttribute="height" id="e2T-v1-hjC"/>
+                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="height" relation="lessThanOrEqual" secondItem="hDU-jr-UxN" secondAttribute="height" constant="20" id="e2T-v1-hjC"/>
                                                         <constraint firstItem="Vph-KC-YGG" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="iMV-MJ-rne"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="Vph-KC-YGG" secondAttribute="bottom" constant="10" id="vvH-7a-xgg"/>
                                                     </constraints>
@@ -613,7 +613,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="DefaultEventBackground"/>
                                                     <constraints>
-                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="height" relation="lessThanOrEqual" secondItem="mNY-Oj-wIH" secondAttribute="height" id="1TD-ZF-1kV"/>
+                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="height" relation="lessThanOrEqual" secondItem="mNY-Oj-wIH" secondAttribute="height" constant="20" id="1TD-ZF-1kV"/>
                                                         <constraint firstItem="34G-oX-H80" firstAttribute="leading" secondItem="Yv0-gH-iq2" secondAttribute="trailing" constant="10" id="8PO-0A-4EP"/>
                                                         <constraint firstItem="Yv0-gH-iq2" firstAttribute="centerY" secondItem="mNY-Oj-wIH" secondAttribute="centerY" id="D57-XD-TNz"/>
                                                         <constraint firstItem="Yv0-gH-iq2" firstAttribute="leading" secondItem="si8-qi-E45" secondAttribute="trailing" constant="10" id="PHM-ta-9Xj"/>
@@ -655,22 +655,22 @@
         <image name="soccerball.inverse" catalog="system" width="128" height="123"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <namedColor name="DefaultEventBackground">
-            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.45100000500679016" green="0.83899998664855957" blue="1" alpha="0.30000001192092896" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="DefaultEventForeground">
-            <color red="0.12330983004187228" green="0.18312110135798115" blue="0.2247503221649485" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.12300000339746475" green="0.18299999833106995" blue="0.22499999403953552" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="DefaultPlayerBackground">
-            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.45100000500679016" green="0.83899998664855957" blue="1" alpha="0.30000001192092896" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="DefaultPlayerForeground">
-            <color red="0.1215686351" green="0.1843137443" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.12200000137090683" green="0.18400000035762787" blue="0.22400000691413879" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="DefaultTeamBackground">
-            <color red="0.45098042490000001" green="0.8392156959" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.45100000500679016" green="0.83899998664855957" blue="1" alpha="0.30000001192092896" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="DefaultTeamForeground">
-            <color red="0.1215686351" green="0.1843137443" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.12200000137090683" green="0.18400000035762787" blue="0.22400000691413879" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
