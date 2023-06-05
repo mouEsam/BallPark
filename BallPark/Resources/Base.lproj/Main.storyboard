@@ -161,16 +161,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pca-2Y-Cfk">
-                                <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pca-2Y-Cfk" id="EHq-bG-fxb">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="28M-Xw-t1y" id="RTw-lA-JRl"/>
                             <outlet property="delegate" destination="28M-Xw-t1y" id="gbI-7B-YjR"/>
@@ -357,54 +347,61 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="358" height="124"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWO-DV-raL" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
-                                                            <rect key="frame" x="18" y="18" width="63" height="63"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="RWO-DV-raL" secondAttribute="height" id="P4U-l5-Gb6"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-7v-wBv">
-                                                            <rect key="frame" x="91" y="23.666666666666671" width="176" height="77"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="atv-rD-gXj">
+                                                            <rect key="frame" x="10" y="10" width="338" height="104"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGw-nK-MFS">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="176" height="20.333333333333332"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <color key="textColor" name="DefaultEventForeground"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IA3-CI-K3B">
-                                                                    <rect key="frame" x="0.0" y="28.333333333333336" width="176" height="20.333333333333336"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <color key="textColor" name="DefaultEventForeground"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-fs-M4p">
-                                                                    <rect key="frame" x="0.0" y="56.666666666666664" width="176" height="20.333333333333336"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cM8-He-7uS">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="338" height="83.666666666666671"/>
+                                                                    <subviews>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RWO-DV-raL" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="83.666666666666671" height="83.666666666666671"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="RWO-DV-raL" secondAttribute="height" id="P4U-l5-Gb6"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mhC-7v-wBv">
+                                                                            <rect key="frame" x="85.666666666666671" y="17.666666666666668" width="166.66666666666663" height="48.666666666666643"/>
+                                                                            <subviews>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IA3-CI-K3B">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="166.66666666666666" height="20.333333333333332"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <color key="textColor" name="DefaultEventForeground"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-fs-M4p">
+                                                                                    <rect key="frame" x="0.0" y="28.333333333333336" width="166.66666666666666" height="20.333333333333336"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <color key="textColor" name="DefaultEventForeground"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                            </subviews>
+                                                                        </stackView>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vph-KC-YGG" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                                            <rect key="frame" x="254.33333333333329" y="0.0" width="83.666666666666657" height="83.666666666666671"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="Vph-KC-YGG" secondAttribute="height" id="ob8-9L-rLr"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="height" relation="lessThanOrEqual" secondItem="cM8-He-7uS" secondAttribute="height" constant="20" id="hfP-f7-6Ub"/>
+                                                                    </constraints>
+                                                                </stackView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" insetsLayoutMarginsFromSafeArea="NO" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGw-nK-MFS">
+                                                                    <rect key="frame" x="0.0" y="83.666666666666671" width="338" height="20.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vph-KC-YGG" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
-                                                            <rect key="frame" x="277" y="18" width="63" height="63"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="Vph-KC-YGG" secondAttribute="height" id="ob8-9L-rLr"/>
-                                                            </constraints>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" name="DefaultEventBackground"/>
                                                     <constraints>
-                                                        <constraint firstItem="Vph-KC-YGG" firstAttribute="leading" secondItem="mhC-7v-wBv" secondAttribute="trailing" constant="10" id="6cO-PH-QOp"/>
-                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="centerY" secondItem="hDU-jr-UxN" secondAttribute="centerY" id="B9S-Tz-czY"/>
-                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="leading" secondItem="RWO-DV-raL" secondAttribute="trailing" constant="10" id="EsB-gr-hrf"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="Vph-KC-YGG" secondAttribute="trailing" constant="10" id="KQg-f0-eJ1"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="RWO-DV-raL" secondAttribute="bottom" constant="10" id="Z8W-F5-6vP"/>
-                                                        <constraint firstItem="RWO-DV-raL" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="ZeX-8g-pkn"/>
-                                                        <constraint firstItem="RWO-DV-raL" firstAttribute="leading" secondItem="hDU-jr-UxN" secondAttribute="leadingMargin" constant="10" id="Zop-qR-j0A"/>
-                                                        <constraint firstItem="mhC-7v-wBv" firstAttribute="height" relation="lessThanOrEqual" secondItem="hDU-jr-UxN" secondAttribute="height" constant="20" id="e2T-v1-hjC"/>
-                                                        <constraint firstItem="Vph-KC-YGG" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="topMargin" constant="10" id="iMV-MJ-rne"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="Vph-KC-YGG" secondAttribute="bottom" constant="10" id="vvH-7a-xgg"/>
+                                                        <constraint firstAttribute="trailing" secondItem="atv-rD-gXj" secondAttribute="trailing" constant="10" id="FbM-s2-nXZ"/>
+                                                        <constraint firstItem="atv-rD-gXj" firstAttribute="top" secondItem="hDU-jr-UxN" secondAttribute="top" constant="10" id="M39-Ck-QHn"/>
+                                                        <constraint firstAttribute="bottom" secondItem="atv-rD-gXj" secondAttribute="bottom" constant="10" id="QiA-xR-9JX"/>
+                                                        <constraint firstItem="atv-rD-gXj" firstAttribute="leading" secondItem="hDU-jr-UxN" secondAttribute="leading" constant="10" id="xvZ-By-gwq"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <size key="customSize" width="358" height="124"/>
@@ -487,8 +484,8 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" insetsLayoutMarginsFromSafeArea="NO" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="527-SG-45N">
-                                                                    <rect key="frame" x="26.333333333333332" y="94" width="41.333333333333343" height="26"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <rect key="frame" x="31.666666666666664" y="94" width="31" height="26"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" name="DefaultTeamForeground"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -575,35 +572,54 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="393" height="131"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="si8-qi-E45" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
-                                                            <rect key="frame" x="18" y="18" width="95" height="95"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="si8-qi-E45" secondAttribute="height" id="nNM-v0-zEx"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="34G-oX-H80" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
-                                                            <rect key="frame" x="280" y="18" width="95" height="95"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="34G-oX-H80" secondAttribute="height" id="bFG-4h-7pB"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-gH-iq2">
-                                                            <rect key="frame" x="123" y="28" width="147" height="75"/>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="l6k-Jb-pYn">
+                                                            <rect key="frame" x="10" y="10" width="373" height="111"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcu-HD-BeJ">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="147" height="20.333333333333332"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <color key="textColor" name="DefaultEventForeground"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpR-ev-XIH">
-                                                                    <rect key="frame" x="0.0" y="27.333333333333336" width="147" height="20.333333333333336"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <color key="textColor" name="DefaultEventForeground"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0z-qa-14B">
-                                                                    <rect key="frame" x="0.0" y="54.666666666666679" width="147" height="20.333333333333336"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LlQ-Dz-Dnp">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="373" height="90.666666666666671"/>
+                                                                    <subviews>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="si8-qi-E45" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="90.666666666666671" height="90.666666666666671"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="si8-qi-E45" secondAttribute="height" id="nNM-v0-zEx"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-gH-iq2">
+                                                                            <rect key="frame" x="100.66666666666667" y="0.0" width="171.66666666666663" height="90.666666666666671"/>
+                                                                            <subviews>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xiT-Ks-eHP">
+                                                                                    <rect key="frame" x="65.333333333333329" y="0.0" width="41.333333333333329" height="36"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <color key="textColor" name="DefaultEventForeground"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpR-ev-XIH">
+                                                                                    <rect key="frame" x="65.333333333333329" y="43" width="41.333333333333329" height="20.333333333333329"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <color key="textColor" name="DefaultEventForeground"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0z-qa-14B">
+                                                                                    <rect key="frame" x="65.333333333333329" y="70.333333333333329" width="41.333333333333329" height="20.333333333333329"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                    <color key="textColor" name="DefaultEventForeground"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
+                                                                            </subviews>
+                                                                        </stackView>
+                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="34G-oX-H80" customClass="StadiumImageView" customModule="BallPark" customModuleProvider="target">
+                                                                            <rect key="frame" x="282.33333333333331" y="0.0" width="90.666666666666686" height="90.666666666666671"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="34G-oX-H80" secondAttribute="height" id="bFG-4h-7pB"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="height" relation="lessThanOrEqual" secondItem="LlQ-Dz-Dnp" secondAttribute="height" constant="20" id="UDw-Od-ZuM"/>
+                                                                    </constraints>
+                                                                </stackView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kcu-HD-BeJ">
+                                                                    <rect key="frame" x="0.0" y="90.666666666666671" width="373" height="20.333333333333329"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" name="DefaultEventForeground"/>
                                                                     <nil key="highlightedColor"/>
@@ -613,16 +629,10 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="DefaultEventBackground"/>
                                                     <constraints>
-                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="height" relation="lessThanOrEqual" secondItem="mNY-Oj-wIH" secondAttribute="height" constant="20" id="1TD-ZF-1kV"/>
-                                                        <constraint firstItem="34G-oX-H80" firstAttribute="leading" secondItem="Yv0-gH-iq2" secondAttribute="trailing" constant="10" id="8PO-0A-4EP"/>
-                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="centerY" secondItem="mNY-Oj-wIH" secondAttribute="centerY" id="D57-XD-TNz"/>
-                                                        <constraint firstItem="Yv0-gH-iq2" firstAttribute="leading" secondItem="si8-qi-E45" secondAttribute="trailing" constant="10" id="PHM-ta-9Xj"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="si8-qi-E45" secondAttribute="bottom" constant="10" id="QFn-lL-LPr"/>
-                                                        <constraint firstItem="si8-qi-E45" firstAttribute="top" secondItem="mNY-Oj-wIH" secondAttribute="topMargin" constant="10" id="aL1-U1-ScP"/>
-                                                        <constraint firstItem="34G-oX-H80" firstAttribute="top" secondItem="mNY-Oj-wIH" secondAttribute="topMargin" constant="10" id="h7G-15-J3e"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="34G-oX-H80" secondAttribute="trailing" constant="10" id="hgw-CM-Scr"/>
-                                                        <constraint firstItem="si8-qi-E45" firstAttribute="leading" secondItem="mNY-Oj-wIH" secondAttribute="leadingMargin" constant="10" id="keA-jC-ane"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="34G-oX-H80" secondAttribute="bottom" constant="10" id="mqz-sc-bWc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="l6k-Jb-pYn" secondAttribute="bottom" constant="10" id="MBF-wg-hVK"/>
+                                                        <constraint firstAttribute="trailing" secondItem="l6k-Jb-pYn" secondAttribute="trailing" constant="10" id="VSf-zf-Uq0"/>
+                                                        <constraint firstItem="l6k-Jb-pYn" firstAttribute="leading" secondItem="mNY-Oj-wIH" secondAttribute="leading" constant="10" id="iEe-sq-Non"/>
+                                                        <constraint firstItem="l6k-Jb-pYn" firstAttribute="top" secondItem="mNY-Oj-wIH" secondAttribute="top" constant="10" id="idx-5A-H9R"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <size key="customSize" width="393" height="131"/>

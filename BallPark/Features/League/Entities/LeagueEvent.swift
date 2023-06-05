@@ -28,10 +28,10 @@ struct LeagueEvent: AnyLeagueEvent {
     
     struct MiniTeam: AnyLeagueEventSide {
         let key: Int64
-        let name: String
+        let name: String?
         let logo: String?
         
-        init(key: Int64, name: String, logo: String?) {
+        init(key: Int64, name: String?, logo: String?) {
             self.key = key
             self.name = name
             self.logo = logo
@@ -43,7 +43,7 @@ extension LeagueEvent.MiniTeam {
     static func initHome(from decoder: Decoder) throws -> Self {
         let container = try decoder.container(keyedBy: HomeCodingKeys.self)
         let key = try [.key, .cricketKey, .tennisKey].map({ try container.decodeIfPresent(Int64.self, forKey: $0) }).compactMap{$0}.first!
-        let name = try [.name, .tennisName].map({ try container.decodeIfPresent(String.self, forKey: $0) }).compactMap{$0}.first!
+        let name = try [.name, .tennisName].map({ try container.decodeIfPresent(String.self, forKey: $0) }).compactMap{$0}.first
         let logo = try [.logo, .tennisLogo, .cricketLogo].map({ try container.decodeIfPresent(String.self, forKey: $0)?.nilIfBlank() }).compactMap{$0}.first
         return LeagueEvent.MiniTeam(key: key, name: name, logo: logo)
     }
@@ -51,7 +51,7 @@ extension LeagueEvent.MiniTeam {
     static func initAway(from decoder: Decoder) throws -> Self {
         let container = try decoder.container(keyedBy: AwayCodingKeys.self)
         let key = try [.key, .cricketKey, .tennisKey].map({ try container.decodeIfPresent(Int64.self, forKey: $0) }).compactMap{$0}.first!
-        let name = try [.name, .tennisName].map({ try container.decodeIfPresent(String.self, forKey: $0) }).compactMap{$0}.first!
+        let name = try [.name, .tennisName].map({ try container.decodeIfPresent(String.self, forKey: $0) }).compactMap{$0}.first
         let logo = try [.logo, .tennisLogo, .cricketLogo].map({ try container.decodeIfPresent(String.self, forKey: $0)?.nilIfBlank() }).compactMap{$0}.first
         return LeagueEvent.MiniTeam(key: key, name: name, logo: logo)
     }

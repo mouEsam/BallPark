@@ -41,7 +41,7 @@ class TennisPlayersViewModel: AnyPlayersViewModel {
             states.combine { (data: [[any AnyLeagueEvent]]) in
                 let dataList = data.flatMap{ $0 }.map{ [$0.firstSide, $0.secondSide] }
                     .flatMap { $0 }.compactMap { $0 as? AnyPlayer }.map { ($0.key, $0) }
-                let dictValues = Dictionary(uniqueKeysWithValues: dataList).values
+                let dictValues = Dictionary(dataList, uniquingKeysWith: { first, _ in first }).values
                 return Array(dictValues)
             }
         }.sink { (state: UIState<[any AnyPlayer]>) in

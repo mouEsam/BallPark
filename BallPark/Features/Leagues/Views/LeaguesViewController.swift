@@ -35,7 +35,7 @@ class LeaguesViewController: UITableViewController, AnyInstantiableView, WithLoa
         tableView.register(UINib(nibName: "LeagueTableViewCell",
                                  bundle: Bundle(for: LeagueTableViewCell.self)),
                            forCellReuseIdentifier: leagueCellId)
-        
+        navigationItem.title = args.rawValue.localizedUppercase
         dataHolder = LeaguesDataHolder(leagueCellId: leagueCellId,
                                        tableView: tableView,
                                        view: self,

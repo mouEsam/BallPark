@@ -19,7 +19,7 @@ protocol AnyLeagueEvent: Decodable {
 
 protocol AnyLeagueEventSide: Decodable {
     var key: Int64 { get }
-    var name: String { get }
+    var name: String? { get }
     var logo: String? { get }
 }
 
