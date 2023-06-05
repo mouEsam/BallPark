@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-enum SportType: String {
+enum SportType: String, Decodable {
     case football
     case tennis
     case basketball

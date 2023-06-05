@@ -23,15 +23,17 @@ struct TennisEvent: AnyLeagueEvent {
         self.sportType = decoder.userInfo[CodingUserInfoKey.sportType] as! SportType
     }
     
-    struct MiniPlayer: AnyLeagueEventSide {
+    struct MiniPlayer: AnyLeagueEventSide, AnyPlayer {
         let key: Int64
-        let name: String
+        let name: String?
         let logo: String?
+        let sportType: SportType?
         
-        init(key: Int64, name: String, logo: String?) {
+        init(key: Int64, name: String?, logo: String?, sportType: SportType) {
             self.key = key
             self.name = name
             self.logo = logo
+            self.sportType = sportType
         }
     }
 }
@@ -40,17 +42,19 @@ extension TennisEvent.MiniPlayer {
     static func initFirst(from decoder: Decoder) throws -> Self {
         let container = try decoder.container(keyedBy: FirstCodingKeys.self)
         let key = try container.decode(Int64.self, forKey: .key)
-        let name = try container.decode(String.self, forKey: .name)
+        let name = try container.decodeIfPresent(String.self, forKey: .name)
         let logo = try container.decodeIfPresent(String.self, forKey: .logo)?.nilIfBlank()
-        return Self.init(key: key, name: name, logo: logo)
+        let sportType = decoder.userInfo[CodingUserInfoKey.sportType] as! SportType
+        return Self.init(key: key, name: name, logo: logo, sportType: sportType)
     }
     
     static func initSecond(from decoder: Decoder) throws -> Self {
         let container = try decoder.container(keyedBy: SecondCodingKeys.self)
         let key = try container.decode(Int64.self, forKey: .key)
-        let name = try container.decode(String.self, forKey: .name)
+        let name = try container.decodeIfPresent(String.self, forKey: .name)
         let logo = try container.decodeIfPresent(String.self, forKey: .logo)?.nilIfBlank()
-        return Self.init(key: key, name: name, logo: logo)
+        let sportType = decoder.userInfo[CodingUserInfoKey.sportType] as! SportType
+        return Self.init(key: key, name: name, logo: logo, sportType: sportType)
     }
     
     enum FirstCodingKeys: String, CodingKey {

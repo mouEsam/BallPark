@@ -33,14 +33,14 @@ class LeagueViewModel {
     @Published private(set) var uiState: UIState<League> = .initial
     
     private let leagueIdentity: LeagueIdentity
-    private let model: LeagueModel
+    private let model: any AnyLeagueModel
     private let notificationCenter: any AnyNotificationCenter
     private let queue: DispatchQueue = DispatchQueue(label: "laegue", attributes: .concurrent)
     
     private var started: Bool = false
     
     init(leagueIdentity: LeagueIdentity,
-         model: LeagueModel,
+         model: some AnyLeagueModel,
          notificationCenter: some AnyNotificationCenter) {
         self.leagueIdentity = leagueIdentity
         self.model = model

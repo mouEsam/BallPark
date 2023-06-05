@@ -7,7 +7,14 @@
 
 import Foundation
 
-class LeagueModel {
+protocol AnyLeagueModel {
+    func load(leagueIdentity: LeagueIdentity,
+              completion: @escaping (Result<SourcedData<League>, Error>) -> Void)
+    
+    func toggleFavourite(_ league: League, completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+class LeagueModel: AnyLeagueModel {
     private let database: (any AnyLeagueDatabase)
     
     init(database: any AnyLeagueDatabase) {
