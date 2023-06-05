@@ -100,7 +100,7 @@ extension TeamsViewController: UICollectionViewDataSource {
         let imageV = cell.viewWithTag(1) as! UIImageView
         let nameLbl = cell.viewWithTag(2) as! UILabel
         
-        nameLbl.text = team.name
+        nameLbl.text = team.name ?? ""
         
         imageLoader.load(imageUrl: team.logo, into: imageV, placeholder: team.sportType.flatMap { UIImage(named: $0.uiImage) })
         
