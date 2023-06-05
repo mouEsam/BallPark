@@ -107,7 +107,7 @@ extension NextEventsViewController: UICollectionViewDataSource {
         let homeTeamImg = cell.viewWithTag(4) as! UIImageView
         let awayTeamImg = cell.viewWithTag(5) as! UIImageView
         
-        nameLbl.text = "\(firstSide.name) vs. \(secondSide.name)"
+        nameLbl.text = "\(firstSide.name ?? "") vs. \(secondSide.name ?? "")"
         dateLbl.text =  event.eventDetails.eventDate.map { dateFormatter.string(from: $0) } ?? nil
         timeLbl.text = event.eventDetails.eventTime.map { timeFormatter.string(from: $0) } ?? nil
         

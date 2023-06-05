@@ -98,7 +98,8 @@ class TeamViewController: UIViewController, AnyInstantiableView, WithLoaderView,
                         self.hideLoader()
                         self.hideEmpty()
                         self.showError(message: error.localizedDescription,
-                                       anchorTo: self.collectionView)
+                                       anchorTo: self.collectionView,
+                                       addTo: self.view)
                     default:
                         break
                 }
@@ -141,7 +142,9 @@ extension TeamViewController: UICollectionViewDataSource {
     private func setData(_ data: [Player]) {
         players = data
         if players.isEmpty {
-            showEmpty(message: "No players found", anchorTo: collectionView)
+            showEmpty(message: "No players found",
+                      anchorTo: collectionView,
+                      addTo: self.view)
         }
         collectionView.reloadData()
     }

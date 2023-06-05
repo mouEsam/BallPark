@@ -109,7 +109,7 @@ extension LatestResultsViewController: UICollectionViewDataSource {
         let awayTeamImg = cell.viewWithTag(5) as! UIImageView
         
         resultLbl.text = event.eventDetails.eventFinalResult
-        nameLbl.text = "\(event.firstSide.name) vs. \(event.secondSide.name)"
+        nameLbl.text = "\(event.firstSide.name ?? "") vs. \(event.secondSide.name ?? "")"
         dateLbl.text =  event.eventDetails.eventDate.map { dateFormatter.string(from: $0) } ?? nil
         timeLbl.text = event.eventDetails.eventTime.map { timeFormatter.string(from: $0) } ?? nil
         

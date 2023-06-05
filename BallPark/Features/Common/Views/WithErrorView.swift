@@ -31,9 +31,12 @@ extension WithErrorView {
         }
     }
     
-    func showError(message: String, anchorTo anchor: UIView? = nil, forKey key: UnsafePointer<ErrorViewKey>? = nil) {
+    func showError(message: String, anchorTo anchor: UIView? = nil,
+                   addTo superView: UIView? = nil,
+                   forKey key: UnsafePointer<ErrorViewKey>? = nil) {
         guard getErrorView(key) == nil else { return }
         let view = anchor ?? self.view!
+        let anchorView = superView ?? view
         
         let wrapper = UIView()
         view.addSubview(wrapper)
@@ -48,10 +51,10 @@ extension WithErrorView {
         wrapper.preservesSuperviewLayoutMargins = true
         
         NSLayoutConstraint.activate([
-            wrapper.heightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.heightAnchor),
-            wrapper.widthAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.widthAnchor),
-            wrapper.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            wrapper.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            wrapper.heightAnchor.constraint(lessThanOrEqualTo: anchorView.layoutMarginsGuide.heightAnchor),
+            wrapper.widthAnchor.constraint(lessThanOrEqualTo: anchorView.layoutMarginsGuide.widthAnchor),
+            wrapper.centerXAnchor.constraint(equalTo: anchorView.centerXAnchor),
+            wrapper.centerYAnchor.constraint(equalTo: anchorView.centerYAnchor),
         ])
         
         let error = UILabel()
