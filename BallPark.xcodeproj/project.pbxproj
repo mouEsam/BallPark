@@ -537,6 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				D4894F7A2A216AF000B206FB /* Database.swift */,
+				D4E0EC152A20D5A000EF0BE7 /* BallPark.xcdatamodeld */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -871,7 +872,6 @@
 				D4E0EC182A20D5A100EF0BE7 /* Assets.xcassets */,
 				D4E0EC122A20D5A000EF0BE7 /* Main.storyboard */,
 				D4E0EC1A2A20D5A100EF0BE7 /* LaunchScreen.storyboard */,
-				D4E0EC152A20D5A000EF0BE7 /* BallPark.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
