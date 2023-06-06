@@ -13,6 +13,7 @@ class LeagueModelTests: XCTestCase {
     
     private var context: NSManagedObjectContext!
     private var entity: NSEntityDescription!
+    private var favouriteEntity: NSEntityDescription!
     private var database: MockLeagueDatabase!
     private var model: LeagueModel!
     private let leagueIdentity = LeagueIdentity(leagueKey: 640, sportType: .football)
@@ -20,6 +21,7 @@ class LeagueModelTests: XCTestCase {
     override func setUp() {
         context = TestManagedObjectContextFactory().create()
         entity = NSEntityDescription.entity(forEntityName: "League", in: context)
+        favouriteEntity = NSEntityDescription.entity(forEntityName: "FavouriteLeague", in: context)
         database = MockLeagueDatabase()
         model = LeagueModel(database: database)
     }
@@ -89,6 +91,49 @@ class LeagueModelTests: XCTestCase {
         }
         
         // Wait for the expectation to be fulfilled, or timeout after a specified time interval
+        wait(for: [expectation], timeout: 5.0)
+    }
+    
+    func testAddFavouriteSuccess() {
+        let league = League(entity: entity, insertInto: context)
+        database.addFavouriteResult = .success(Void())
+        
+        let expectation = XCTestExpectation(description: "Fetch completion")
+        
+        model.toggleFavourite(league) { result in
+            guard case .success(_) = result else { XCTFail(); return }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+    }
+    
+    func testRemoveFavouriteSuccess() {
+        let league = League(entity: entity, insertInto: context)
+        league.favourite = FavouriteLeague(entity: favouriteEntity, insertInto: context)
+        league.favourite?.isFavourite = true
+        database.removeFavouriteResult = .success(Void())
+        
+        let expectation = XCTestExpectation(description: "Fetch completion")
+        
+        model.toggleFavourite(league) { result in
+            guard case .success(_) = result else { XCTFail(); return }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5.0)
+    }
+    
+    func testFavouriteFailure() {
+        let league = League(entity: entity, insertInto: context)
+        let error = TestError()
+        database.addFavouriteResult = .failure(error)
+        
+        let expectation = XCTestExpectation(description: "Fetch completion")
+        
+        model.toggleFavourite(league) { result in
+            guard case .failure(let errorResult) = result else { XCTFail(); return }
+            XCTAssertIdentical(error, errorResult as? TestError)
+            expectation.fulfill()
+        }
         wait(for: [expectation], timeout: 5.0)
     }
 }
